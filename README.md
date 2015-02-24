@@ -11,4 +11,4 @@ Also, `tableprint` is fast (minimal processing required) and is therefore releva
 ## Usage
 
 ## License
-MIT Licensed. See `License.md`
+MIT Licensed. See `LICENSE.md`

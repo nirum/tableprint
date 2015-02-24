@@ -1,4 +1,13 @@
+# Byte-compiled / optimized / DLL files
 *.pyc
+
+# Distribution / packaging
+build/
+dist/
+lib/
+lib64/
+*.egg-info/
+*.egg
 
 # PyCharm
 .idea/

@@ -29,4 +29,4 @@ tableprint.table(data, headers)
 - Python 2.7 or 3.3+
 
 ## License
-MIT Licensed. See `LICENSE.md`
+MIT. See `LICENSE.md`

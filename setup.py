@@ -39,7 +39,7 @@ setup(
 
         # Indicate who your project is intended for
         'Intended Audience :: Science/Research',
-        'Topic :: Tex Processing :: General',
+        'Topic :: Text Processing :: General',
 
         # Pick your license as you wish (should match "license" above)
         'License :: OSI Approved :: MIT License',

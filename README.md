@@ -1,6 +1,8 @@
 # tableprint
 :clipboard: pretty ASCII printing of tabular data in python :snake:
 
+![Example output](https://raw.githubusercontent.com/nirum/tableprint/master/example.png)
+
 ## About
 `tableprint` lets you easily print pretty ASCII formatted tables of data.
 Unlike other modules, you can print single rows of data at a time (useful for printing ongoing computation results).
@@ -22,6 +24,9 @@ headers = ['Column A', 'Column B', 'Column C']
 
 tableprint.table(data, headers)
 ```
+
+## Dependencies
+- Python 2.7 or 3.3+
 
 ## License
 MIT Licensed. See `LICENSE.md`

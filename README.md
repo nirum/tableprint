@@ -28,5 +28,8 @@ tableprint.table(data, headers)
 ## Dependencies
 - Python 2.7 or 3.3+
 
+## Version
+- 0.1.0 (Feb 24 2015) Initial release
+
 ## License
 MIT. See `LICENSE.md`

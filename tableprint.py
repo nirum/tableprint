@@ -53,7 +53,11 @@ def table(data, headers, options=None):
 
     # parse each row
     tablestr = headerstr + [row(d, column_width=opts['column_width'], precision=opts['precision'],
-                           outer_char=opts['outer_char']) for d in data] + [hrule]
+                           outer_char=opts['outer_char']) for d in data]\
+
+    # only add the final border if there was data in the table
+    if len(data) > 0:
+        tablestr += [hrule]
 
     # print the table
     print('\n'.join(tablestr))

@@ -142,7 +142,7 @@ def row(values, column_width=10, precision='2f', outer_char='|'):
     return rowstr
 
 
-def hr(ncols, column_width=10, corner_char='+', line_char='-', outer_char='|'):
+def hr(ncols, column_width=10, corner_char='+', line_char='-'):
     """
     Returns a formatted string used as a border between table rows
 
@@ -160,9 +160,6 @@ def hr(ncols, column_width=10, corner_char='+', line_char='-', outer_char='|'):
     line_char : string
         A character printed in between column edges, defines the row border (Default: '-')
 
-    outer_char : string
-        A character printed at the left and right outer edge of the row (Default: '|')
-
     Returns
     -------
     rowstr : string
@@ -172,4 +169,4 @@ def hr(ncols, column_width=10, corner_char='+', line_char='-', outer_char='|'):
 
     hrstr = corner_char.join([('{:%s^%i}' % (line_char, column_width+2)).format('') for _ in range(ncols)])
 
-    return outer_char + hrstr[1:-1] + outer_char
+    return corner_char + hrstr[1:-1] + corner_char

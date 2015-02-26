@@ -3,8 +3,35 @@ Module to nicely format ASCII table rows for display
 
 """
 
+# imports
+import numpy as np
+
 # exports
-__all__ = ['table', 'row', 'header']
+__all__ = ['table', 'row', 'header', 'frame']
+
+
+def frame(df, options=None):
+    """
+    Print an ASCII table using the given pandas DataFrame
+
+    Parameters
+    ----------
+    df : DataFrame
+        A pandas DataFrame with consisting of the table to print
+
+    options : dict
+        A dictionary of options. Defaults:
+        {
+            'column_width'  : 10,       # the width of each column in the table
+            'outer_char'    : '|',      # the character defining the outer border of the table
+            'corner_char'   : '+',      # printed at the junctions of the table lines
+            'line_char'     : '-',      # character as part of each horizontal rule
+            'precision'     : '2f'      # precision string for formatting numbers
+        }
+
+    """
+
+    table(np.array(df), list(df.columns), options)
 
 
 def table(data, headers, options=None):

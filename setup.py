@@ -1,12 +1,4 @@
-from setuptools import setup, find_packages  # Always prefer setuptools over distutils
-from codecs import open  # To use a consistent encoding
-from os import path
-
-here = path.abspath(path.dirname(__file__))
-
-# Get the long description from the relevant file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
+from setuptools import setup, find_packages
 
 setup(
     name='tableprint',
@@ -17,7 +9,7 @@ setup(
     version='0.1.2',
 
     description='Pretty ASCII printing of tabular data',
-    long_description=long_description,
+    long_description='''Formatted ASCII printing of tabular data''',
 
     # The project's main homepage.
     url='https://github.com/nirum/tableprint',
@@ -65,7 +57,7 @@ setup(
     # project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['pandas'],
+    install_requires=['numpy'],
 
     # List additional groups of dependencies here (e.g. development dependencies).
     # You can install these using the following syntax, for example:

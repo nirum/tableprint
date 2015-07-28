@@ -10,13 +10,13 @@ import numpy as np
 __all__ = ['table', 'row', 'header', 'frame']
 
 
-def frame(df, options=None):
+def frame(dataframe, options=None):
     """
     Print an ASCII table using the given pandas DataFrame
 
     Parameters
     ----------
-    df : DataFrame
+    dataframe : DataFrame
         A pandas DataFrame with consisting of the table to print
 
     options : dict
@@ -31,7 +31,7 @@ def frame(df, options=None):
 
     """
 
-    table(np.array(df), list(df.columns), options)
+    table(np.array(dataframe), list(df.columns), options)
 
 
 def table(data, headers, options=None):

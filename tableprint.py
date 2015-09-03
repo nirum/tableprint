@@ -3,7 +3,7 @@ Module to nicely format ASCII table rows for display
 
 """
 
-# imports
+from __future__ import print_function
 import numpy as np
 
 # exports
@@ -31,7 +31,7 @@ def frame(dataframe, options=None):
 
     """
 
-    table(np.array(dataframe), list(df.columns), options)
+    table(np.array(dataframe), list(dataframe.columns), options)
 
 
 def table(data, headers, options=None):
@@ -149,20 +149,29 @@ def row(values, column_width=10, precision='2f', outer_char='|'):
 
     """
 
+    assert (type(precision) is str) | (type(precision) is list), \
+        "Precision must be a string or list of strings"
+
+    if type(precision) is str:
+        precision = [precision] * len(list(values))
+
     # mapping function for string formatting
-    def mapdata(d):
+    def mapdata(val):
+
+        # unpack
+        d, prec = val
 
         if isinstance(d, str):
             return ('{:>%i}' % column_width).format(d)
 
         elif isinstance(d, (int, float)):
-            return ('{:>%i.%s}' % (column_width, precision)).format(d)
+            return ('{:>%i.%s}' % (column_width, prec)).format(d)
 
         else:
             raise ValueError('Elements in the values array must be strings, ints, or floats')
 
     # string formatter
-    fmt = map(mapdata, values)
+    fmt = map(mapdata, zip(values, precision))
 
     # build the base string
     basestr = (' %s ' % outer_char).join(fmt)

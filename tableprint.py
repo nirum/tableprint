@@ -26,7 +26,7 @@ def frame(dataframe, options=None):
             'outer_char'    : '|',      # the character defining the outer border of the table
             'corner_char'   : '+',      # printed at the junctions of the table lines
             'line_char'     : '-',      # character as part of each horizontal rule
-            'precision'     : '2f'      # precision string for formatting numbers
+            'format_spec'     : '2f'    # format_spec string for formatting numbers
         }
 
     """
@@ -53,7 +53,7 @@ def table(data, headers, options=None):
             'outer_char'    : '|',      # the character defining the outer border of the table
             'corner_char'   : '+',      # printed at the junctions of the table lines
             'line_char'     : '-',      # character as part of each horizontal rule
-            'precision'     : '2f'      # precision string for formatting numbers
+            'format_spec'     : '2f'    # format_spec string for formatting numbers
         }
 
     """
@@ -64,7 +64,7 @@ def table(data, headers, options=None):
         'outer_char': '|',
         'corner_char': '+',
         'line_char': '-',
-        'precision': '2f'
+        'format_spec': '2f'
     }
 
     # user-specified options
@@ -79,7 +79,7 @@ def table(data, headers, options=None):
     headerstr = [hrule, header(headers, column_width=opts['column_width'], outer_char=opts['outer_char']), hrule]
 
     # parse each row
-    tablestr = headerstr + [row(d, column_width=opts['column_width'], precision=opts['precision'],
+    tablestr = headerstr + [row(d, column_width=opts['column_width'], format_spec=opts['format_spec'],
                            outer_char=opts['outer_char']) for d in data]\
 
     # only add the final border if there was data in the table
@@ -124,7 +124,7 @@ def header(headers, column_width=10, outer_char='|'):
     return headerstr
 
 
-def row(values, column_width=10, precision='2f', outer_char='|'):
+def row(values, column_width=10, format_spec='2f', outer_char='|'):
     """
     Returns a formatted ASCII row of data
 
@@ -136,7 +136,7 @@ def row(values, column_width=10, precision='2f', outer_char='|'):
     column_width : int
         The width of each column (Default: 10)
 
-    precision : string
+    format_spec : string
         The precision format string used to format numbers in the values array (Default: '2f')
 
     outer_char : string
@@ -149,11 +149,11 @@ def row(values, column_width=10, precision='2f', outer_char='|'):
 
     """
 
-    assert (type(precision) is str) | (type(precision) is list), \
-        "Precision must be a string or list of strings"
+    assert (type(format_spec) is str) | (type(format_spec) is list), \
+        "format_spec must be a string or list of strings"
 
-    if type(precision) is str:
-        precision = [precision] * len(list(values))
+    if type(format_spec) is str:
+        format_spec = [format_spec] * len(list(values))
 
     # mapping function for string formatting
     def mapdata(val):
@@ -171,7 +171,7 @@ def row(values, column_width=10, precision='2f', outer_char='|'):
             raise ValueError('Elements in the values array must be strings, ints, or floats')
 
     # string formatter
-    fmt = map(mapdata, zip(values, precision))
+    fmt = map(mapdata, zip(values, format_spec))
 
     # build the base string
     basestr = (' %s ' % outer_char).join(fmt)
@@ -210,3 +210,63 @@ def hr(ncols, column_width=10, corner_char='+', line_char='-'):
     hrstr = corner_char.join([('{:%s^%i}' % (line_char, column_width+2)).format('') for _ in range(ncols)])
 
     return corner_char + hrstr[1:-1] + corner_char
+
+
+def hrtime(t):
+    """
+    Converts a time in seconds to a reasonable human readable time
+
+    Parameters
+    ----------
+    t : float
+        The number of seconds
+
+    Returns
+    -------
+    time : string
+        The human readable formatted value of the given time
+
+    """
+
+    try:
+        t = float(t)
+    except (ValueError, TypeError):
+        raise ValueError("Input must be numeric")
+
+    # weeks
+    if t >= 7*60*60*24:
+        weeks = np.floor(t / (7.*60.*60.*24.))
+        timestr = "{:0.0f} weeks, ".format(weeks) + hrtime(t % (7*60*60*24))
+
+    # days
+    elif t >= 60*60*24:
+        days = np.floor(t / (60.*60.*24.))
+        timestr = "{:0.0f} days, ".format(days) + hrtime(t % (60*60*24))
+
+    # hours
+    elif t >= 60*60:
+        hours = np.floor(t / (60.*60.))
+        timestr = "{:0.0f} hours, ".format(hours) + hrtime(t % (60*60))
+
+    # minutes
+    elif t >= 60:
+        minutes = np.floor(t / 60.)
+        timestr = "{:0.0f} min., ".format(minutes) + hrtime(t % 60)
+
+    # seconds
+    elif (t >= 1) | (t == 0):
+        timestr = "{:g} s".format(t)
+
+    # milliseconds
+    elif t >= 1e-3:
+        timestr = "{:g} ms".format(t*1e3)
+
+    # microseconds
+    elif t >= 1e-6:
+        timestr = u"{:g} \u03BCs".format(t*1e6)
+
+    # nanoseconds or smaller
+    else:
+        timestr = "{:g} ns".format(t*1e9)
+
+    return timestr

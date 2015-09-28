@@ -1,0 +1,33 @@
+<h1 id="tableprint">tableprint</h1>
+<h4>Pretty ASCII printing of tabular data in python</h4>
+<a href="https://github.com/nirum/tableprint"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+<p><a href="https://pypi.python.org/pypi/tableprint"><img src="https://img.shields.io/pypi/v/nine.svg" alt="PyPi version" /></a></p>
+<div class="figure">
+<p class="caption">Example output</p>
+<img src="https://raw.githubusercontent.com/nirum/tableprint/master/example.png" alt="Example output" width="800px"/>
+</div>
+<h2 id="about">About</h2>
+<p><code>tableprint</code> lets you easily print pretty ASCII formatted tables of data. Unlike other modules, you can print single rows of data at a time (useful for printing ongoing computation results). Also, <code>tableprint</code> is fast (minimal processing required) and is therefore relevant for printing updates during speed-intensive computations.</p>
+<h2 id="installation">Installation</h2>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">pip</span> install tableprint</code></pre></div>
+<h2 id="usage">Usage</h2>
+<p>The <code>tableprint.table</code> function takes in a matrix of data, a list of headers, and an optional dictionary of parameters. To print a dataset consisting of 10 rows of 3 different columns:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> tableprint
+<span class="im">import</span> numpy <span class="im">as</span> np
+
+data <span class="op">=</span> np.random.randn(<span class="dv">10</span>,<span class="dv">3</span>)
+headers <span class="op">=</span> [<span class="st">&#39;Column A&#39;</span>, <span class="st">&#39;Column B&#39;</span>, <span class="st">&#39;Column C&#39;</span>]
+
+tableprint.table(data, headers)</code></pre></div>
+<p>The <code>header</code> and <code>row</code> functions allow you to print just the header or just a row of data, respectively, which is useful for continuously updating a table during a long-running computation.</p>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>Python 2.7 or 3.3+</li>
+</ul>
+<h2 id="version">Version</h2>
+<ul>
+<li>0.1.4 (Sept 28 2015) Added human readable string converter (hrtime)</li>
+<li>0.1.0 (Feb 24 2015) Initial release</li>
+</ul>
+<h2 id="license">License</h2>
+<p>MIT</p>

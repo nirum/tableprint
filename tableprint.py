@@ -26,7 +26,7 @@ def frame(dataframe, options=None):
             'outer_char'    : '|',      # the character defining the outer border of the table
             'corner_char'   : '+',      # printed at the junctions of the table lines
             'line_char'     : '-',      # character as part of each horizontal rule
-            'format_spec'     : '2f'    # format_spec string for formatting numbers
+            'format_spec'   : '5g'      # format_spec string for formatting numbers
         }
 
     """
@@ -34,7 +34,7 @@ def frame(dataframe, options=None):
     table(np.array(dataframe), list(dataframe.columns), options)
 
 
-def table(data, headers, options=None):
+def table(data, headers, format_spec='5g', column_width=10, outer_char='|', corner_char='+', line_char='-'):
     """
     Print an ASCII table with the given data
 
@@ -53,7 +53,7 @@ def table(data, headers, options=None):
             'outer_char'    : '|',      # the character defining the outer border of the table
             'corner_char'   : '+',      # printed at the junctions of the table lines
             'line_char'     : '-',      # character as part of each horizontal rule
-            'format_spec'     : '2f'    # format_spec string for formatting numbers
+            'format_spec'   : '5g'      # format_spec string for formatting numbers
         }
 
     """
@@ -64,7 +64,7 @@ def table(data, headers, options=None):
         'outer_char': '|',
         'corner_char': '+',
         'line_char': '-',
-        'format_spec': '2f'
+        'format_spec': '5g'
     }
 
     # user-specified options
@@ -124,7 +124,7 @@ def header(headers, column_width=10, outer_char='|'):
     return headerstr
 
 
-def row(values, column_width=10, format_spec='2f', outer_char='|'):
+def row(values, column_width=10, format_spec='5g', outer_char='|'):
     """
     Returns a formatted ASCII row of data
 
@@ -137,7 +137,7 @@ def row(values, column_width=10, format_spec='2f', outer_char='|'):
         The width of each column (Default: 10)
 
     format_spec : string
-        The precision format string used to format numbers in the values array (Default: '2f')
+        The precision format string used to format numbers in the values array (Default: '5g')
 
     outer_char : string
         A character printed at the edges of each column (Default : '|')
@@ -164,7 +164,7 @@ def row(values, column_width=10, format_spec='2f', outer_char='|'):
         if isinstance(d, str):
             return ('{:>%i}' % column_width).format(d)
 
-        elif isinstance(d, (int, float)):
+        elif isinstance(d, (int, float, np.integer, np.float)):
             return ('{:>%i.%s}' % (column_width, prec)).format(d)
 
         else:

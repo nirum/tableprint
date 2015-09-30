@@ -9,6 +9,7 @@ lib64/
 *.egg-info/
 *.egg
 *.zip
+docs/_build
 
 # PyCharm
 .idea/

@@ -1,6 +1,5 @@
-==========
 Tableprint
-==========
+----------
 
 Tableprint is a library for printing out numerical data in Ascii formatted tables. Check it out on `Github`_!
 

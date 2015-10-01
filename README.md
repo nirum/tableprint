@@ -29,10 +29,15 @@ tableprint.table(data, headers)
 
 The `header` and `row` functions allow you to print just the header or just a row of data, respectively, which is useful for continuously updating a table during a long-running computation.
 
+## Documentation
+Hosted at Read The Docs: [tableprint.readthedocs.org](http://tableprint.readthedocs.org)
+
 ## Dependencies
 - Python 2.7 or 3.3+
+- `numpy`
 
 ## Version
+- 0.1.5 (Oct 1 2015) Renamed hrtime to humantime, added docs
 - 0.1.4 (Sept 28 2015) Added human readable string converter (hrtime)
 - 0.1.0 (Feb 24 2015) Initial release
 

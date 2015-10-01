@@ -8,7 +8,7 @@ Tableprint is a library for printing out numerical data in Ascii formatted table
 Installation
 ------------
 
-First, we need to install the module. We can do that using pip: 
+First, we need to install the module. We can do that using ``pip``: 
 
 .. code-block:: bash
 

@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+import tableprint
 
 setup(
     name='tableprint',
@@ -6,7 +7,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.1.4',
+    version=tableprint.__version__,
 
     description='Pretty ASCII printing of tabular data',
     long_description='''Formatted ASCII printing of tabular data''',

@@ -1,5 +1,7 @@
 """
-Module to nicely format ASCII table rows for display
+Tableprint
+
+A module to print and display ASCII formatted tables of data
 
 """
 
@@ -7,31 +9,7 @@ from __future__ import print_function
 import numpy as np
 
 # exports
-__all__ = ['table', 'row', 'header', 'frame']
-
-
-def frame(dataframe, options=None):
-    """
-    Print an ASCII table using the given pandas DataFrame
-
-    Parameters
-    ----------
-    dataframe : DataFrame
-        A pandas DataFrame with consisting of the table to print
-
-    options : dict
-        A dictionary of options. Defaults:
-        {
-            'column_width'  : 10,       # the width of each column in the table
-            'outer_char'    : '|',      # the character defining the outer border of the table
-            'corner_char'   : '+',      # printed at the junctions of the table lines
-            'line_char'     : '-',      # character as part of each horizontal rule
-            'format_spec'   : '5g'      # format_spec string for formatting numbers
-        }
-
-    """
-
-    table(np.array(dataframe), list(dataframe.columns), options)
+__all__ = ['table', 'row', 'header', 'hr', 'humantime', 'frame']
 
 
 def table(data, headers, format_spec='5g', column_width=10, outer_char='|', corner_char='+', line_char='-'):
@@ -46,41 +24,34 @@ def table(data, headers, format_spec='5g', column_width=10, outer_char='|', corn
     headers : list
         A list of n strings consisting of the header of each of the n columns
 
-    options : dict
-        A dictionary of options. Defaults:
-        {
-            'column_width'  : 10,       # the width of each column in the table
-            'outer_char'    : '|',      # the character defining the outer border of the table
-            'corner_char'   : '+',      # printed at the junctions of the table lines
-            'line_char'     : '-',      # character as part of each horizontal rule
-            'format_spec'   : '5g'      # format_spec string for formatting numbers
-        }
+    column_width : int, optional
+        The width of each column in the table (Default: 10)
+
+    outer_char : string, optional
+        The character defining the outer border of the table (Default: '|')
+
+    corner_char : string, optional
+        Printed at the junctions of the table lines (Default: '+')
+
+    line_char : string, optional
+        Character as part of each horizontal rule (Default: '-')
+
+    format_spec : string, optional
+        Format specification for formatting numbers (Default: '5g')
+
 
     """
 
-    # default options
-    opts = {
-        'column_width': 10,
-        'outer_char': '|',
-        'corner_char': '+',
-        'line_char': '-',
-        'format_spec': '5g'
-    }
-
-    # user-specified options
-    if options:
-        opts.update(options)
-
     # the hr line
-    hrule = hr(len(headers), column_width=opts['column_width'],
-               corner_char=opts['corner_char'], line_char=opts['line_char'])
+    hrule = hr(len(headers), column_width=column_width,
+               corner_char=corner_char, line_char=line_char)
 
     # get the header string
-    headerstr = [hrule, header(headers, column_width=opts['column_width'], outer_char=opts['outer_char']), hrule]
+    headerstr = [hrule, header(headers, column_width=column_width, outer_char=outer_char), hrule]
 
     # parse each row
-    tablestr = headerstr + [row(d, column_width=opts['column_width'], format_spec=opts['format_spec'],
-                           outer_char=opts['outer_char']) for d in data]\
+    tablestr = headerstr + [row(d, column_width=column_width, format_spec=format_spec,
+                           outer_char=outer_char) for d in data]\
 
     # only add the final border if there was data in the table
     if len(data) > 0:
@@ -207,12 +178,12 @@ def hr(ncols, column_width=10, corner_char='+', line_char='-'):
 
     """
 
-    hrstr = corner_char.join([('{:%s^%i}' % (line_char, column_width+2)).format('') for _ in range(ncols)])
+    hrstr = corner_char.join([('{:%s^%i}' % (line_char, column_width + 2)).format('') for _ in range(ncols)])
 
     return corner_char + hrstr[1:-1] + corner_char
 
 
-def hrtime(t):
+def humantime(t):
     """
     Converts a time in seconds to a reasonable human readable time
 
@@ -236,22 +207,22 @@ def hrtime(t):
     # weeks
     if t >= 7*60*60*24:
         weeks = np.floor(t / (7.*60.*60.*24.))
-        timestr = "{:0.0f} weeks, ".format(weeks) + hrtime(t % (7*60*60*24))
+        timestr = "{:g} weeks, ".format(weeks) + hrtime(t % (7*60*60*24))
 
     # days
     elif t >= 60*60*24:
         days = np.floor(t / (60.*60.*24.))
-        timestr = "{:0.0f} days, ".format(days) + hrtime(t % (60*60*24))
+        timestr = "{:g} days, ".format(days) + hrtime(t % (60*60*24))
 
     # hours
     elif t >= 60*60:
         hours = np.floor(t / (60.*60.))
-        timestr = "{:0.0f} hours, ".format(hours) + hrtime(t % (60*60))
+        timestr = "{:g} hours, ".format(hours) + hrtime(t % (60*60))
 
     # minutes
     elif t >= 60:
         minutes = np.floor(t / 60.)
-        timestr = "{:0.0f} min., ".format(minutes) + hrtime(t % 60)
+        timestr = "{:g} min., ".format(minutes) + hrtime(t % 60)
 
     # seconds
     elif (t >= 1) | (t == 0):
@@ -270,3 +241,32 @@ def hrtime(t):
         timestr = "{:g} ns".format(t*1e9)
 
     return timestr
+
+
+def frame(dataframe, **kwargs):
+    """
+    Print an ASCII table using the given pandas DataFrame
+
+    Parameters
+    ----------
+    dataframe : DataFrame
+        A pandas DataFrame with consisting of the table to print
+
+    column_width : int, optional
+        The width of each column in the table (Default: 10)
+
+    outer_char : string, optional
+        The character defining the outer border of the table (Default: '|')
+
+    corner_char : string, optional
+        Printed at the junctions of the table lines (Default: '+')
+
+    line_char : string, optional
+        Character as part of each horizontal rule (Default: '-')
+
+    format_spec : string, optional
+        Format specification for formatting numbers (Default: '5g')
+
+    """
+
+    table(np.array(dataframe), list(dataframe.columns), **kwargs)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# TablePrint documentation build configuration file, created by
+# Tableprint documentation build configuration file, created by
 # sphinx-quickstart on Wed Sep 30 13:40:02 2015.
 #
 # This file is execfile()d with the current directory set to its
@@ -53,7 +53,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'TablePrint'
+project = u'Tableprint'
 copyright = u'2015, Niru Maheswaranathan'
 author = u'Niru Maheswaranathan'
 
@@ -207,7 +207,7 @@ html_static_path = ['_static']
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'TablePrintdoc'
+htmlhelp_basename = 'Tableprintdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -229,7 +229,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'TablePrint.tex', u'TablePrint Documentation',
+  (master_doc, 'Tableprint.tex', u'Tableprint Documentation',
    u'Niru Maheswaranathan', 'manual'),
 ]
 
@@ -259,7 +259,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'tableprint', u'TablePrint Documentation',
+    (master_doc, 'tableprint', u'Tableprint Documentation',
      [author], 1)
 ]
 
@@ -273,8 +273,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'TablePrint', u'TablePrint Documentation',
-   author, 'TablePrint', 'One line description of project.',
+  (master_doc, 'Tableprint', u'Tableprint Documentation',
+   author, 'Tableprint', 'One line description of project.',
    'Miscellaneous'),
 ]
 
@@ -292,4 +292,4 @@ texinfo_documents = [
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {'https://docs.python.org/3': None}

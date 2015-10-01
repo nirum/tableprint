@@ -1,7 +1,8 @@
 # tableprint
-:clipboard: pretty ASCII printing of tabular data in python :snake:
+Pretty ASCII printing :clipboard: of tabular data in python :snake:
 
 [![PyPi version](https://img.shields.io/pypi/v/tableprint.svg)](https://pypi.python.org/pypi/tableprint)
+[![Documentation Status](https://readthedocs.org/projects/tableprint/badge/?version=latest)](http://tableprint.readthedocs.org/en/latest/?badge=latest)
 
 ![Example output](https://raw.githubusercontent.com/nirum/tableprint/master/example.png)
 

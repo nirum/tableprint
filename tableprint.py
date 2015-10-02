@@ -14,7 +14,7 @@ except ImportError:
 # exports
 __all__ = ['table', 'row', 'header', 'hr', 'humantime', 'frame']
 
-__version__ = '0.1.5'
+__version__ = '0.1.6'
 
 
 def table(data, headers, format_spec='5g', column_width=10, outer_char='|', corner_char='+', line_char='-'):

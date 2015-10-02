@@ -6,7 +6,10 @@ A module to print and display ASCII formatted tables of data
 """
 
 from __future__ import print_function
-import numpy as np
+try:
+    import numpy as np
+except ImportError:
+    pass
 
 # exports
 __all__ = ['table', 'row', 'header', 'hr', 'humantime', 'frame']

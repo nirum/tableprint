@@ -14,7 +14,7 @@ except ImportError:
 # exports
 __all__ = ['table', 'row', 'header', 'hr', 'humantime', 'frame']
 
-__version__ = '0.1.6'
+__version__ = '0.1.7'
 
 
 def table(data, headers, format_spec='5g', column_width=10, outer_char='|', corner_char='+', line_char='-'):
@@ -212,22 +212,22 @@ def humantime(t):
     # weeks
     if t >= 7*60*60*24:
         weeks = np.floor(t / (7.*60.*60.*24.))
-        timestr = "{:g} weeks, ".format(weeks) + hrtime(t % (7*60*60*24))
+        timestr = "{:g} weeks, ".format(weeks) + humantime(t % (7*60*60*24))
 
     # days
     elif t >= 60*60*24:
         days = np.floor(t / (60.*60.*24.))
-        timestr = "{:g} days, ".format(days) + hrtime(t % (60*60*24))
+        timestr = "{:g} days, ".format(days) + humantime(t % (60*60*24))
 
     # hours
     elif t >= 60*60:
         hours = np.floor(t / (60.*60.))
-        timestr = "{:g} hours, ".format(hours) + hrtime(t % (60*60))
+        timestr = "{:g} hours, ".format(hours) + humantime(t % (60*60))
 
     # minutes
     elif t >= 60:
         minutes = np.floor(t / 60.)
-        timestr = "{:g} min., ".format(minutes) + hrtime(t % 60)
+        timestr = "{:g} min., ".format(minutes) + humantime(t % 60)
 
     # seconds
     elif (t >= 1) | (t == 0):

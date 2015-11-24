@@ -14,7 +14,7 @@ except ImportError:
 # exports
 __all__ = ['table', 'row', 'header', 'hr', 'humantime', 'frame']
 
-__version__ = '0.1.7'
+__version__ = '0.1.8'
 
 
 def table(data, headers, format_spec='5g', column_width=10, outer_char='|', corner_char='+', line_char='-'):
@@ -66,7 +66,7 @@ def table(data, headers, format_spec='5g', column_width=10, outer_char='|', corn
     print('\n'.join(tablestr))
 
 
-def header(headers, column_width=10, outer_char='|'):
+def header(headers, column_width=10, outer_char='|', add_hr=True):
     """
     Returns a formatted ASCII row of column header strings
 
@@ -96,6 +96,10 @@ def header(headers, column_width=10, outer_char='|'):
 
     # build the formatted str
     headerstr = outer_char + basestr.format(*headers) + outer_char
+
+    if add_hr:
+        hr_string = hr(len(headers), column_width=column_width)
+        headerstr = '\n'.join([hr_string, headerstr, hr_string])
 
     return headerstr
 

@@ -14,7 +14,7 @@ except ImportError:
 # exports
 __all__ = ['table', 'row', 'header', 'hr', 'humantime', 'frame']
 
-__version__ = '0.1.8'
+__version__ = '0.1.9'
 
 
 def table(data, headers, format_spec='5g', column_width=10, outer_char='|', corner_char='+', line_char='-'):
@@ -47,20 +47,17 @@ def table(data, headers, format_spec='5g', column_width=10, outer_char='|', corn
 
     """
 
-    # the hr line
-    hrule = hr(len(headers), column_width=column_width,
-               corner_char=corner_char, line_char=line_char)
-
     # get the header string
-    headerstr = [hrule, header(headers, column_width=column_width, outer_char=outer_char), hrule]
+    headerstr = header(headers, column_width=column_width, outer_char=outer_char)
 
     # parse each row
-    tablestr = headerstr + [row(d, column_width=column_width, format_spec=format_spec,
-                           outer_char=outer_char) for d in data]\
+    tablestr = [headerstr] + [row(d, column_width=column_width, format_spec=format_spec,
+                              outer_char=outer_char) for d in data]
 
     # only add the final border if there was data in the table
     if len(data) > 0:
-        tablestr += [hrule]
+        tablestr += [hr(len(headers), column_width=column_width,
+                        corner_char=corner_char, line_char=line_char)]
 
     # print the table
     print('\n'.join(tablestr))

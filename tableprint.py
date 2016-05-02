@@ -9,15 +9,16 @@ Usage
 >>> headers = ['Column A', 'Column B', 'Column C']
 >>> tableprint.table(data, headers)
 """
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 from six import string_types
 import numpy as np
 
 __all__ = ['table', 'row', 'header', 'hr', 'humantime', 'frame']
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
 
-def table(data, headers, format_spec='5g', column_width=10, outer_char=u'\u2502', corner_char=u'\u253C', line_char=u'\u2500'):
+def table(data, headers, format_spec='5g', column_width=10,
+          outer_char='\u2502', corner_char='\u253C', line_char='\u2500'):
     """
     Print an ASCII table with the given data
 
@@ -63,7 +64,7 @@ def table(data, headers, format_spec='5g', column_width=10, outer_char=u'\u2502'
     print('\n'.join(tablestr))
 
 
-def header(headers, column_width=10, outer_char=u'\u2502', add_hr=True):
+def header(headers, column_width=10, outer_char='\u2502', add_hr=True):
     """
     Returns a formatted ASCII row of column header strings
 
@@ -101,7 +102,7 @@ def header(headers, column_width=10, outer_char=u'\u2502', add_hr=True):
     return headerstr
 
 
-def row(values, column_width=10, format_spec='5g', outer_char=u'\u2502'):
+def row(values, column_width=10, format_spec='5g', outer_char='\u2502'):
     """
     Returns a formatted ASCII row of data
 
@@ -126,10 +127,10 @@ def row(values, column_width=10, format_spec='5g', outer_char=u'\u2502'):
 
     """
 
-    assert (type(format_spec) is str) | (type(format_spec) is list), \
+    assert isinstance(format_spec, string_types) | (type(format_spec) is list), \
         "format_spec must be a string or list of strings"
 
-    if type(format_spec) is str:
+    if isinstance(format_spec, string_types):
         format_spec = [format_spec] * len(list(values))
 
     # mapping function for string formatting
@@ -159,7 +160,7 @@ def row(values, column_width=10, format_spec='5g', outer_char=u'\u2502'):
     return rowstr
 
 
-def hr(ncols, column_width=10, corner_char=u'\u253C', line_char=u'\u2500'):
+def hr(ncols, column_width=10, corner_char='\u253C', line_char='\u2500'):
     """
     Returns a formatted string used as a border between table rows
 
@@ -183,9 +184,7 @@ def hr(ncols, column_width=10, corner_char=u'\u253C', line_char=u'\u2500'):
         A string consisting of the row border to print
 
     """
-
     hrstr = corner_char.join([('{:%s^%i}' % (line_char, column_width + 2)).format('') for _ in range(ncols)])
-
     return corner_char + hrstr[1:-1] + corner_char
 
 

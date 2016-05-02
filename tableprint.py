@@ -17,7 +17,7 @@ __all__ = ['table', 'row', 'header', 'hr', 'humantime', 'frame']
 __version__ = '0.2.0'
 
 
-def table(data, headers, format_spec='5g', column_width=10, outer_char='|', corner_char='+', line_char='-'):
+def table(data, headers, format_spec='5g', column_width=10, outer_char=u'\u2502', corner_char=u'\u253C', line_char=u'\u2500'):
     """
     Print an ASCII table with the given data
 
@@ -63,7 +63,7 @@ def table(data, headers, format_spec='5g', column_width=10, outer_char='|', corn
     print('\n'.join(tablestr))
 
 
-def header(headers, column_width=10, outer_char='|', add_hr=True):
+def header(headers, column_width=10, outer_char=u'\u2502', add_hr=True):
     """
     Returns a formatted ASCII row of column header strings
 
@@ -101,7 +101,7 @@ def header(headers, column_width=10, outer_char='|', add_hr=True):
     return headerstr
 
 
-def row(values, column_width=10, format_spec='5g', outer_char='|'):
+def row(values, column_width=10, format_spec='5g', outer_char=u'\u2502'):
     """
     Returns a formatted ASCII row of data
 
@@ -159,7 +159,7 @@ def row(values, column_width=10, format_spec='5g', outer_char='|'):
     return rowstr
 
 
-def hr(ncols, column_width=10, corner_char='+', line_char='-'):
+def hr(ncols, column_width=10, corner_char=u'\u253C', line_char=u'\u2500'):
     """
     Returns a formatted string used as a border between table rows
 
@@ -274,5 +274,4 @@ def frame(dataframe, **kwargs):
         Format specification for formatting numbers (Default: '5g')
 
     """
-
     table(np.array(dataframe), list(dataframe.columns), **kwargs)

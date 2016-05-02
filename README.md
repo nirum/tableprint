@@ -37,6 +37,7 @@ Hosted at Read The Docs: [tableprint.readthedocs.org](http://tableprint.readthed
 - `numpy`
 
 ## Version
+- 0.2.0 (May 2 2016) Adds better python2 (unicode/bytes) compatibility
 - 0.1.5 (Oct 1 2015) Renamed hrtime to humantime, added docs
 - 0.1.4 (Sept 28 2015) Added human readable string converter (hrtime)
 - 0.1.0 (Feb 24 2015) Initial release

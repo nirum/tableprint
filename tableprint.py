@@ -3,18 +3,18 @@ Tableprint
 
 A module to print and display ASCII formatted tables of data
 
+Usage
+-----
+>>> data = np.random.randn(10,3)
+>>> headers = ['Column A', 'Column B', 'Column C']
+>>> tableprint.table(data, headers)
 """
-
 from __future__ import print_function
-try:
-    import numpy as np
-except ImportError:
-    pass
+from six import string_types
+import numpy as np
 
-# exports
 __all__ = ['table', 'row', 'header', 'hr', 'humantime', 'frame']
-
-__version__ = '0.1.9'
+__version__ = '0.2.0'
 
 
 def table(data, headers, format_spec='5g', column_width=10, outer_char='|', corner_char='+', line_char='-'):
@@ -138,7 +138,7 @@ def row(values, column_width=10, format_spec='5g', outer_char='|'):
         # unpack
         d, prec = val
 
-        if isinstance(d, str):
+        if isinstance(d, string_types):
             return ('{:>%i}' % column_width).format(d)
 
         elif isinstance(d, (int, float, np.integer, np.float)):

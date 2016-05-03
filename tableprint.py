@@ -42,6 +42,12 @@ DEFAULT_STYLES = {
         bottom=LineStyle(" ", "─", " ", " "),
         row=LineStyle(' ', '', ' ', ' '),
     ),
+    'round': TableStyle(
+        top=LineStyle('╭', '─', '┬', '╮'),
+        below_header=LineStyle('├', '─', '┼', '┤'),
+        bottom=LineStyle('╰', '─', '┴', '╯'),
+        row=LineStyle('│', '', '│', '│'),
+    ),
     'banner': TableStyle(
         top=LineStyle('╒', '═', '╤', '╕'),
         below_header=LineStyle("╘", "═", "╧", "╛"),
@@ -49,7 +55,7 @@ DEFAULT_STYLES = {
         row=LineStyle('│', '', '│', '│'),
     ),
 }
-STYLE = 'fancy_grid'
+STYLE = 'round'
 WIDTH = 11
 FMT = '5g'
 

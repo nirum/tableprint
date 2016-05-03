@@ -1,131 +1,158 @@
 """
 Tableprint
 
-A module to print and display ASCII formatted tables of data
+A module to print and display formatted tables of data
 
 Usage
 -----
->>> data = np.random.randn(10,3)
+>>> data = np.random.randn(10, 3)
 >>> headers = ['Column A', 'Column B', 'Column C']
 >>> tableprint.table(data, headers)
 """
 from __future__ import print_function, unicode_literals
 from six import string_types
+from collections import namedtuple
+from numbers import Number
+import sys
 import numpy as np
 
-__all__ = ['table', 'row', 'header', 'hr', 'humantime', 'frame']
-__version__ = '0.2.1'
+__all__ = ['table', 'row', 'header', 'hr', 'humantime', 'dataframe']
+__version__ = '0.3.0'
+
+# set up table styles
+LineStyle = namedtuple('LineStyle', ('begin', 'hline', 'sep', 'end'))
+TableStyle = namedtuple('TableStyle', ('top', 'below_header', 'bottom', 'row'))
+DEFAULT_STYLES = {
+    'grid': TableStyle(
+        top=LineStyle('+', '-', '+', '+'),
+        below_header=LineStyle('+', '-', '+', '+'),
+        bottom=LineStyle('+', '-', '+', '+'),
+        row=LineStyle('|', '', '|', '|'),
+    ),
+    'fancy_grid': TableStyle(
+        top=LineStyle('╒', '═', '╤', '╕'),
+        below_header=LineStyle('╞', '═', '╪', '╡'),
+        bottom=LineStyle("╘", "═", "╧", "╛"),
+        row=LineStyle('│', '', '│', '│'),
+    ),
+    'clean': TableStyle(
+        top=LineStyle(' ', '─', ' ', ' '),
+        below_header=LineStyle(' ', '─', ' ', ' '),
+        bottom=LineStyle(" ", "─", " ", " "),
+        row=LineStyle(' ', '', ' ', ' '),
+    ),
+    'banner': TableStyle(
+        top=LineStyle('╒', '═', '╤', '╕'),
+        below_header=LineStyle("╘", "═", "╧", "╛"),
+        bottom=LineStyle("╘", "═", "╧", "╛"),
+        row=LineStyle('│', '', '│', '│'),
+    ),
+}
+STYLE = 'fancy_grid'
+WIDTH = 11
+FMT = '5g'
 
 
-def table(data, headers, format_spec='5g', column_width=10,
-          outer_char='\u2502', corner_char='\u253C', line_char='\u2500'):
-    """
-    Print an ASCII table with the given data
+def table(data, headers=None, format_spec=FMT, width=WIDTH, style=STYLE, out=sys.stdout):
+    """Print a table with the given data
 
     Parameters
     ----------
     data : array_like
         An (m x n) array containing the data to print (m rows of n columns)
 
-    headers : list
-        A list of n strings consisting of the header of each of the n columns
-
-    column_width : int, optional
-        The width of each column in the table (Default: 10)
-
-    outer_char : string, optional
-        The character defining the outer border of the table (Default: '|')
-
-    corner_char : string, optional
-        Printed at the junctions of the table lines (Default: '+')
-
-    line_char : string, optional
-        Character as part of each horizontal rule (Default: '-')
+    headers : list, optional
+        A list of n strings consisting of the header of each of the n columns (Default: None)
 
     format_spec : string, optional
         Format specification for formatting numbers (Default: '5g')
 
+    width : int, optional
+        The width of each column in the table (Default: 11)
 
+    style : string or tuple, optional
+        A formatting style. (Default: 'fancy_grid')
+
+    out : writer, optional
+        A file handle or object that has write() and flush() methods (Default: sys.stdout)
     """
+    ncols = len(data[0]) if headers is None else len(headers)
+    tablestyle = DEFAULT_STYLES[style]
 
-    # get the header string
-    headerstr = header(headers, column_width=column_width, outer_char=outer_char)
+    # Initialize with a hr or the header
+    tablestr = [hr(ncols, width, tablestyle.top)] \
+        if headers is None else [header(headers, width, style)]
 
     # parse each row
-    tablestr = [headerstr] + [row(d, column_width=column_width, format_spec=format_spec,
-                              outer_char=outer_char) for d in data]
+    tablestr += [row(d, width, format_spec, style) for d in data]
 
     # only add the final border if there was data in the table
     if len(data) > 0:
-        tablestr += [hr(len(headers), column_width=column_width,
-                        corner_char=corner_char, line_char=line_char)]
+        tablestr += [hr(ncols, width, tablestyle.bottom)]
 
     # print the table
-    print('\n'.join(tablestr))
+    out.write('\n'.join(tablestr) + '\n')
+    out.flush()
 
 
-def header(headers, column_width=10, outer_char='\u2502', add_hr=True):
-    """
-    Returns a formatted ASCII row of column header strings
+def header(headers, width=WIDTH, style=STYLE, add_hr=True):
+    """Returns a formatted row of column header strings
 
     Parameters
     ----------
     headers : list of strings
         A list of n strings, the column headers
 
-    column_width : int
-        The width of each column (Default: 10)
+    width : int
+        The width of each column (Default: 11)
 
-    outer_char : string
-        A character printed at the edges of each column (Default: '|')
+    style : string or tuple, optional
+        A formatting style (see DEFAULT_STYLES)
 
     Returns
     -------
     headerstr : string
         A string consisting of the full header row to print
-
     """
+    tablestyle = DEFAULT_STYLES[style]
 
     # string formatter
-    fmt = map(lambda x: '{:<' + str(column_width) + '}', headers)
-
-    # build the base string
-    basestr = (' %s ' % outer_char).join(fmt)
+    data = map(lambda x: ('{:^%d}' % width).format(x), headers)
 
     # build the formatted str
-    headerstr = outer_char + basestr.format(*headers) + outer_char
+    headerstr = _format_line(data, tablestyle.row)
 
     if add_hr:
-        hr_string = hr(len(headers), column_width=column_width)
-        headerstr = '\n'.join([hr_string, headerstr, hr_string])
+        upper = hr(len(headers), width, tablestyle.top)
+        lower = hr(len(headers), width, tablestyle.below_header)
+        headerstr = '\n'.join([upper, headerstr, lower])
 
     return headerstr
 
 
-def row(values, column_width=10, format_spec='5g', outer_char='\u2502'):
-    """
-    Returns a formatted ASCII row of data
+def row(values, width=WIDTH, format_spec=FMT, style=STYLE):
+    """Returns a formatted row of data
 
     Parameters
     ----------
     values : array_like
         An iterable array of data (numbers of strings), each value is printed in a separate column
 
-    column_width : int
-        The width of each column (Default: 10)
+    width : int
+        The width of each column (Default: 11)
 
     format_spec : string
         The precision format string used to format numbers in the values array (Default: '5g')
 
-    outer_char : string
-        A character printed at the edges of each column (Default : '|')
+    style : namedtuple, optional
+        A line formatting style
 
     Returns
     -------
     rowstr : string
         A string consisting of the full row of data to print
-
     """
+    tablestyle = DEFAULT_STYLES[style]
 
     assert isinstance(format_spec, string_types) | (type(format_spec) is list), \
         "format_spec must be a string or list of strings"
@@ -137,60 +164,92 @@ def row(values, column_width=10, format_spec='5g', outer_char='\u2502'):
     def mapdata(val):
 
         # unpack
-        d, prec = val
+        datum, prec = val
 
-        if isinstance(d, string_types):
-            return ('{:>%i}' % column_width).format(d)
+        if isinstance(datum, string_types):
+            return ('{:>%i}' % width).format(datum)
 
-        elif isinstance(d, (int, float, np.integer, np.float)):
-            return ('{:>%i.%s}' % (column_width, prec)).format(d)
+        elif isinstance(datum, Number):
+            return ('{:>%i.%s}' % (width, prec)).format(datum)
 
         else:
             raise ValueError('Elements in the values array must be strings, ints, or floats')
 
     # string formatter
-    fmt = map(mapdata, zip(values, format_spec))
+    data = map(mapdata, zip(values, format_spec))
 
-    # build the base string
-    basestr = (' %s ' % outer_char).join(fmt)
-
-    # build the formatted string
-    rowstr = outer_char + basestr + outer_char
-
-    return rowstr
+    # build the row string
+    return _format_line(data, tablestyle.row)
 
 
-def hr(ncols, column_width=10, corner_char='\u253C', line_char='\u2500'):
-    """
-    Returns a formatted string used as a border between table rows
+def hr(n, width=WIDTH, linestyle=LineStyle('|', '-', '+', '|')):
+    """Returns a formatted string used as a border between table rows
 
     Parameters
     ----------
-    ncols : int
+    n : int
         The number of columns in the table
 
-    column_width : int
-        The width of each column (Default: 10)
+    width : int
+        The width of each column (Default: 11)
 
-    corner_char : string
-        A character printed at the intersection of column edges and the row border (Default: '+')
-
-    line_char : string
-        A character printed in between column edges, defines the row border (Default: '-')
+    linestyle : tuple
+        A LineStyle namedtuple containing the characters for (begin, hr, sep, end).
+        (Default: ('|', '-', '+', '|'))
 
     Returns
     -------
     rowstr : string
         A string consisting of the row border to print
-
     """
-    hrstr = corner_char.join([('{:%s^%i}' % (line_char, column_width + 2)).format('') for _ in range(ncols)])
-    return corner_char + hrstr[1:-1] + corner_char
+    hrstr = linestyle.sep.join([('{:%s^%i}' % (linestyle.hline, width)).format('')] * n)
+    return linestyle.begin + hrstr + linestyle.end
+
+
+def top(n, width=WIDTH, style=STYLE):
+    """Prints the top row of a table"""
+    return hr(n, width, linestyle=DEFAULT_STYLES[style].top)
+
+
+def bottom(n, width=WIDTH, style=STYLE):
+    """Prints the top row of a table"""
+    return hr(n, width, linestyle=DEFAULT_STYLES[style].bottom)
+
+
+def banner(message, width=30, style='banner', out=sys.stdout):
+    """Prints a banner message
+
+    Parameters
+    ----------
+    message : string
+        The message to print in the banner
+
+    width : int
+        The width of each column (Default: 11)
+
+    style : string
+        A line formatting style (Default: 'banner')
+
+    out : writer
+        An object that has write() and flush() methods (Default: sys.stdout)
+    """
+    out.write(header([message], width, style) + '\n')
+    out.flush()
+
+
+def dataframe(df, **kwargs):
+    """Print table with data from the given pandas DataFrame
+
+    Parameters
+    ----------
+    df : DataFrame
+        A pandas DataFrame with the table to print
+    """
+    table(np.array(df), list(df.columns), **kwargs)
 
 
 def humantime(t):
-    """
-    Converts a time in seconds to a reasonable human readable time
+    """Converts a time in seconds to a reasonable human readable time
 
     Parameters
     ----------
@@ -201,9 +260,7 @@ def humantime(t):
     -------
     time : string
         The human readable formatted value of the given time
-
     """
-
     try:
         t = float(t)
     except (ValueError, TypeError):
@@ -248,29 +305,6 @@ def humantime(t):
     return timestr
 
 
-def frame(dataframe, **kwargs):
-    """
-    Print an ASCII table using the given pandas DataFrame
-
-    Parameters
-    ----------
-    dataframe : DataFrame
-        A pandas DataFrame with consisting of the table to print
-
-    column_width : int, optional
-        The width of each column in the table (Default: 10)
-
-    outer_char : string, optional
-        The character defining the outer border of the table (Default: '|')
-
-    corner_char : string, optional
-        Printed at the junctions of the table lines (Default: '+')
-
-    line_char : string, optional
-        Character as part of each horizontal rule (Default: '-')
-
-    format_spec : string, optional
-        Format specification for formatting numbers (Default: '5g')
-
-    """
-    table(np.array(dataframe), list(dataframe.columns), **kwargs)
+def _format_line(data, linestyle):
+    """Formats a list of elements using the given line style"""
+    return linestyle.begin + linestyle.sep.join(data) + linestyle.end

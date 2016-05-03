@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Tableprint
 
@@ -16,8 +17,8 @@ from numbers import Number
 import sys
 import numpy as np
 
-__all__ = ['table', 'row', 'header', 'hr', 'humantime', 'dataframe']
-__version__ = '0.3.0'
+__all__ = ['table', 'header', 'row', 'hr', 'top', 'bottom', 'banner', 'dataframe', 'humantime']
+__version__ = '0.3.1'
 
 # set up table styles
 LineStyle = namedtuple('LineStyle', ('begin', 'hline', 'sep', 'end'))
@@ -296,7 +297,7 @@ def humantime(t):
 
     # microseconds
     elif t >= 1e-6:
-        timestr = u"{:g} \u03BCs".format(t*1e6)
+        timestr = "{:g} \u03BCs".format(t*1e6)
 
     # nanoseconds or smaller
     else:

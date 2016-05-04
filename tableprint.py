@@ -18,7 +18,7 @@ import sys
 import numpy as np
 
 __all__ = ['table', 'header', 'row', 'hr', 'top', 'bottom', 'banner', 'dataframe', 'humantime']
-__version__ = '0.4.0'
+__version__ = '0.4.1'
 
 # set up table styles
 LineStyle = namedtuple('LineStyle', ('begin', 'hline', 'sep', 'end'))
@@ -246,7 +246,7 @@ def banner(message, width=30, style='banner', out=sys.stdout):
     out : writer
         An object that has write() and flush() methods (Default: sys.stdout)
     """
-    out.write(header([message], width, style) + '\n')
+    out.write(header([message], max(width, len(message)), style) + '\n')
     out.flush()
 
 

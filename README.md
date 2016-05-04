@@ -9,7 +9,7 @@ Pretty console printing :clipboard: of tabular data in python :snake:
 ![Example output](https://raw.githubusercontent.com/nirum/tableprint/master/example.png)
 
 ## About
-`tableprint` lets you easily print pretty ASCII formatted tables of data.
+`tableprint` lets you easily print formatted tables of data.
 Unlike other modules, you can print single rows of data at a time (useful for printing ongoing computation results).
 
 ## Installation
@@ -18,7 +18,7 @@ pip install tableprint
 ```
 
 ## Usage
-The `tableprint.table` function takes in a matrix of data, a list of headers, and an optional dictionary of parameters. To print a dataset consisting of 10 rows of 3 different columns:
+The `tableprint.table` function takes in a matrix of data, a list of headers, a width (defaults to 11) and a style (defaults to 'round'). To print a dataset consisting of 10 rows of 3 different columns with the default width and style:
 ```python
 import tableprint
 import numpy as np
@@ -28,8 +28,7 @@ headers = ['Column A', 'Column B', 'Column C']
 
 tableprint.table(data, headers)
 ```
-
-The `header` and `row` functions allow you to print just the header or just a row of data, respectively, which is useful for continuously updating a table during a long-running computation.
+The `header` and `row` functions allow you to print just the header or just a row of data, respectively, which is useful for continuously updating a table during a long-running computation. Also, the `banner` function is useful for just printing out a nicely formatted message to the user.
 
 ## Documentation
 Hosted at Read The Docs: [tableprint.readthedocs.org](http://tableprint.readthedocs.org)
@@ -37,6 +36,7 @@ Hosted at Read The Docs: [tableprint.readthedocs.org](http://tableprint.readthed
 ## Dependencies
 - Python 2.7 or 3.3+
 - `numpy`
+- `six`
 
 ## Version
 - 0.4.0 (May 3 2016) Adds a 'block' style

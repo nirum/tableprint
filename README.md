@@ -1,5 +1,5 @@
 # tableprint
-Pretty ASCII printing :clipboard: of tabular data in python :snake:
+Pretty console printing :clipboard: of tabular data in python :snake:
 
 [![PyPi version](https://img.shields.io/pypi/v/tableprint.svg)](https://pypi.python.org/pypi/tableprint)
 [![Documentation Status](https://readthedocs.org/projects/tableprint/badge/?version=latest)](http://tableprint.readthedocs.org/en/latest/?badge=latest)
@@ -37,6 +37,8 @@ Hosted at Read The Docs: [tableprint.readthedocs.org](http://tableprint.readthed
 - `numpy`
 
 ## Version
+- 0.3.2 (May 3 2016) Adds a test suite
+- 0.3.0 (May 3 2016) Adds custom styles for tables, specified by a key ('fancy_grid', 'grid', etc.)
 - 0.2.0 (May 2 2016) Adds better python2 (unicode/bytes) compatibility
 - 0.1.5 (Oct 1 2015) Renamed hrtime to humantime, added docs
 - 0.1.4 (Sept 28 2015) Added human readable string converter (hrtime)

@@ -18,7 +18,7 @@ import sys
 import numpy as np
 
 __all__ = ['table', 'header', 'row', 'hr', 'top', 'bottom', 'banner', 'dataframe', 'humantime']
-__version__ = '0.3.2'
+__version__ = '0.4.0'
 
 # set up table styles
 LineStyle = namedtuple('LineStyle', ('begin', 'hline', 'sep', 'end'))
@@ -53,6 +53,12 @@ DEFAULT_STYLES = {
         below_header=LineStyle("╘", "═", "╧", "╛"),
         bottom=LineStyle("╘", "═", "╧", "╛"),
         row=LineStyle('│', '', '│', '│'),
+    ),
+    'block': TableStyle(
+        top=LineStyle('◢', '■', '■', '◣'),
+        below_header=LineStyle(' ', '━', '━', ' '),
+        bottom=LineStyle('◥', '■', '■', '◤'),
+        row=LineStyle(' ', '', ' ', ' '),
     ),
 }
 STYLE = 'round'

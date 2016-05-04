@@ -23,7 +23,7 @@ headers, whereas the second takes a pandas DataFrame as input. For example, you 
 
 .. code-block:: python
 
-    >>> tableprint.table(np.random.randn(10,3), ['A', 'B', 'C'])
+    >>> tableprint.table(np.random.randn(10, 3), ['A', 'B', 'C'])
 
 If you want to append to a table on the fly, you can use the functions ``tableprint.header``,
 ``tableprint.row``, and finally ``tableprint.bottom``. These functions return a formatted string

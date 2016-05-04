@@ -18,7 +18,7 @@ import sys
 import numpy as np
 
 __all__ = ['table', 'header', 'row', 'hr', 'top', 'bottom', 'banner', 'dataframe', 'humantime']
-__version__ = '0.4.1'
+__version__ = '0.4.2'
 
 # set up table styles
 LineStyle = namedtuple('LineStyle', ('begin', 'hline', 'sep', 'end'))

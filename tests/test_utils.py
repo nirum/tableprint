@@ -1,7 +1,20 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from tableprint import humantime
+from tableprint import humantime, _format_line, LineStyle
 import pytest
+
+
+def test_format_line():
+
+    # using ASCII
+    assert _format_line(['foo', 'bar'], LineStyle('(', '_', '+', ')')) == '(foo+bar)'
+    assert _format_line("abc", LineStyle('[', '*', '.', ']')) == '[a.b.c]'
+    assert _format_line(["_"], LineStyle('o', '', '!', 'o')) == 'o_o'
+    assert _format_line([], LineStyle(':', '', '', ')')) == ':)'
+
+    # using unicode
+    assert _format_line(['.', '.', '.'], LineStyle('★', '_', '╳', '☆')) == '★.╳.╳.☆'
+    assert _format_line("☚☛", LineStyle('♪', '*', '♩', '♫')) == '♪☚♩☛♫'
 
 
 def test_humantime():

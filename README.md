@@ -23,7 +23,7 @@ The `tableprint.table` function takes in a matrix of data, a list of headers, a 
 import tableprint
 import numpy as np
 
-data = np.random.randn(10,3)
+data = np.random.randn(10, 3)
 headers = ['Column A', 'Column B', 'Column C']
 
 tableprint.table(data, headers)

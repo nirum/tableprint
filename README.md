@@ -6,11 +6,20 @@ Pretty console printing :clipboard: of tabular data in python :snake:
 [![Coverage Status](https://coveralls.io/repos/github/nirum/tableprint/badge.svg?branch=master)](https://coveralls.io/github/nirum/tableprint?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/tableprint/badge/?version=latest)](https://tableprint.readthedocs.io/?badge=latest)
 
-![Example output](https://raw.githubusercontent.com/nirum/tableprint/master/example.png)
-
 ## About
 `tableprint` lets you easily print formatted tables of data.
 Unlike other modules, you can print single rows of data at a time (useful for printing ongoing computation results).
+
+![Example output](https://raw.githubusercontent.com/nirum/tableprint/master/example.png)
+
+## Table of Contents
+
+  * [Screenshot](#about)
+  * [Usage](#usage)
+  * [Documentation](#documentation)
+  * [Dependencies](#dependencies)
+  * [Version](#version)
+  * [License](#license)
 
 ## Installation
 ```bash

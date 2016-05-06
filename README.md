@@ -15,6 +15,7 @@ Unlike other modules, you can print single rows of data at a time (useful for pr
 ## Table of Contents
 
   * [Screenshot](#about)
+  * [Installation](#installation)
   * [Usage](#usage)
   * [Documentation](#documentation)
   * [Dependencies](#dependencies)

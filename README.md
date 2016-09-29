@@ -49,6 +49,7 @@ Hosted at Read The Docs: [tableprint.readthedocs.org](http://tableprint.readthed
 - `six`
 
 ## Version
+- 0.5.0 (Sept 29 2016) Better handling of ANSI escape sequences in table rows
 - 0.4.0 (May 3 2016) Adds a 'block' style
 - 0.3.2 (May 3 2016) Adds a test suite
 - 0.3.0 (May 3 2016) Adds custom styles for tables, specified by a key ('fancy_grid', 'grid', etc.)

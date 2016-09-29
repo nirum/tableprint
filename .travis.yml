@@ -18,7 +18,7 @@ before_install:
   - export PATH="$HOME/miniconda/bin:$PATH"
   - conda update --yes conda
 install:
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION pip numpy
+  - conda install --yes pip numpy
   - travis_retry pip install -r requirements-dev.txt
   - travis_retry python setup.py install
 script:

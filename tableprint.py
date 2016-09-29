@@ -15,10 +15,11 @@ from six import string_types
 from collections import namedtuple
 from numbers import Number
 import sys
+import re
 import numpy as np
 
 __all__ = ['table', 'header', 'row', 'hr', 'top', 'bottom', 'banner', 'dataframe', 'humantime']
-__version__ = '0.4.3'
+__version__ = '0.5.0'
 
 # set up table styles
 LineStyle = namedtuple('LineStyle', ('begin', 'hline', 'sep', 'end'))
@@ -149,7 +150,7 @@ def row(values, width=WIDTH, format_spec=FMT, style=STYLE):
     Parameters
     ----------
     values : array_like
-        An iterable array of data (numbers of strings), each value is printed in a separate column
+        An iterable array of data (numbers or strings), each value is printed in a separate column
 
     width : int
         The width of each column (Default: 11)
@@ -180,7 +181,7 @@ def row(values, width=WIDTH, format_spec=FMT, style=STYLE):
         datum, prec = val
 
         if isinstance(datum, string_types):
-            return ('{:>%i}' % width).format(datum)
+            return ('{:>%i}' % (width + _ansi_len(datum))).format(datum)
 
         elif isinstance(datum, Number):
             return ('{:>%i.%s}' % (width, prec)).format(datum)
@@ -316,6 +317,11 @@ def humantime(t):
         timestr = "{:g} ns".format(t*1e9)
 
     return timestr
+
+
+def _ansi_len(string):
+    """Extra length due to any ANSI sequences in the string."""
+    return len(string) - len(re.compile(r'\x1b[^m]*m').sub('', string))
 
 
 def _format_line(data, linestyle):

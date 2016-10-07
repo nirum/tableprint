@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from tableprint import table, banner, dataframe
+from tableprint import table, banner, dataframe, hr
 from io import StringIO
 import numpy as np
 
@@ -7,7 +7,7 @@ import numpy as np
 def test_table():
 
     output = StringIO()
-    table([[1, 2, 3], [4, 5 ,6]], "ABC", style='round', width=5, out=output)
+    table([[1, 2, 3], [4, 5, 6]], 'ABC', style='round', width=5, out=output)
     assert output.getvalue() == '╭─────┬─────┬─────╮\n│  A  │  B  │  C  │\n├─────┼─────┼─────┤\n│    1│    2│    3│\n│    4│    5│    6│\n╰─────┴─────┴─────╯\n'
 
     output = StringIO()
@@ -41,3 +41,10 @@ def test_banner():
     output = StringIO()
     banner('!', style='banner', width=1, out=output)
     assert output.getvalue() == '╒═╕\n│!│\n╘═╛\n'
+
+
+def test_hr():
+
+    output = hr(1, width=11)
+    assert len(output) == 11
+    assert '───────────'

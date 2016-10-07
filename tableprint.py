@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Tableprint
 
@@ -18,13 +17,14 @@ import sys
 import re
 import numpy as np
 
-__all__ = ['table', 'header', 'row', 'hr', 'top', 'bottom', 'banner', 'dataframe', 'humantime']
-__version__ = '0.5.0'
+__all__ = ('table', 'header', 'row', 'hr', 'top', 'bottom',
+           'banner', 'dataframe', 'humantime', 'styles')
+__version__ = '0.5.1'
 
 # set up table styles
 LineStyle = namedtuple('LineStyle', ('begin', 'hline', 'sep', 'end'))
 TableStyle = namedtuple('TableStyle', ('top', 'below_header', 'bottom', 'row'))
-DEFAULT_STYLES = {
+styles = {
     'grid': TableStyle(
         top=LineStyle('+', '-', '+', '+'),
         below_header=LineStyle('+', '-', '+', '+'),
@@ -91,7 +91,7 @@ def table(data, headers=None, format_spec=FMT, width=WIDTH, style=STYLE, out=sys
         A file handle or object that has write() and flush() methods (Default: sys.stdout)
     """
     ncols = len(data[0]) if headers is None else len(headers)
-    tablestyle = DEFAULT_STYLES[style]
+    tablestyle = styles[style]
 
     # Initialize with a hr or the header
     tablestr = [hr(ncols, width, tablestyle.top)] \
@@ -121,14 +121,14 @@ def header(headers, width=WIDTH, style=STYLE, add_hr=True):
         The width of each column (Default: 11)
 
     style : string or tuple, optional
-        A formatting style (see DEFAULT_STYLES)
+        A formatting style (see styles)
 
     Returns
     -------
     headerstr : string
         A string consisting of the full header row to print
     """
-    tablestyle = DEFAULT_STYLES[style]
+    tablestyle = styles[style]
 
     # string formatter
     data = map(lambda x: ('{:^%d}' % width).format(x), headers)
@@ -166,7 +166,7 @@ def row(values, width=WIDTH, format_spec=FMT, style=STYLE):
     rowstr : string
         A string consisting of the full row of data to print
     """
-    tablestyle = DEFAULT_STYLES[style]
+    tablestyle = styles[style]
 
     assert isinstance(format_spec, string_types) | (type(format_spec) is list), \
         "format_spec must be a string or list of strings"
@@ -196,7 +196,7 @@ def row(values, width=WIDTH, format_spec=FMT, style=STYLE):
     return _format_line(data, tablestyle.row)
 
 
-def hr(n, width=WIDTH, linestyle=LineStyle('|', '-', '+', '|')):
+def hr(n, width=WIDTH, linestyle=LineStyle('', '─', '─', '')):
     """Returns a formatted string used as a border between table rows
 
     Parameters
@@ -209,7 +209,7 @@ def hr(n, width=WIDTH, linestyle=LineStyle('|', '-', '+', '|')):
 
     linestyle : tuple
         A LineStyle namedtuple containing the characters for (begin, hr, sep, end).
-        (Default: ('|', '-', '+', '|'))
+        (Default: ('', '─', '─', ''))
 
     Returns
     -------
@@ -222,12 +222,12 @@ def hr(n, width=WIDTH, linestyle=LineStyle('|', '-', '+', '|')):
 
 def top(n, width=WIDTH, style=STYLE):
     """Prints the top row of a table"""
-    return hr(n, width, linestyle=DEFAULT_STYLES[style].top)
+    return hr(n, width, linestyle=styles[style].top)
 
 
 def bottom(n, width=WIDTH, style=STYLE):
     """Prints the top row of a table"""
-    return hr(n, width, linestyle=DEFAULT_STYLES[style].bottom)
+    return hr(n, width, linestyle=styles[style].bottom)
 
 
 def banner(message, width=30, style='banner', out=sys.stdout):
@@ -239,7 +239,7 @@ def banner(message, width=30, style='banner', out=sys.stdout):
         The message to print in the banner
 
     width : int
-        The width of each column (Default: 11)
+        The minimum width of the banner (Default: 30)
 
     style : string
         A line formatting style (Default: 'banner')

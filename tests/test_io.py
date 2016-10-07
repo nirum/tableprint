@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from tableprint import table, banner, dataframe, hr
 from io import StringIO

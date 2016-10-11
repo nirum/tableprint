@@ -65,7 +65,7 @@ setup(
     # $ pip install -e .[dev,test]
     extras_require={
         'dev': [],
-        'test': ['coveralls', 'pytest', 'nose'],
+        'test': ['pytest', 'coverage'],
     },
 
 )

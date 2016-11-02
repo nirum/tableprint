@@ -1,10 +1,10 @@
 # tableprint
 Pretty console printing :clipboard: of tabular data in python :snake:
 
-[![PyPi version](https://img.shields.io/pypi/v/tableprint.svg)](https://pypi.python.org/pypi/tableprint)
 [![Build Status](https://travis-ci.org/nirum/tableprint.svg?branch=master)](https://travis-ci.org/nirum/tableprint)
-[![Coverage Status](https://coveralls.io/repos/github/nirum/tableprint/badge.svg?branch=master)](https://coveralls.io/github/nirum/tableprint?branch=master)
+[![Coverage Status](https://codecov.io/gh/nirum/tableprint/branch/master/graph/badge.svg)](https://codecov.io/gh/nirum/tableprint)
 [![Documentation Status](https://readthedocs.org/projects/tableprint/badge/?version=latest)](https://tableprint.readthedocs.io/?badge=latest)
+[![PyPi version](https://img.shields.io/pypi/v/tableprint.svg)](https://pypi.python.org/pypi/tableprint)
 
 ## About
 `tableprint` lets you easily print formatted tables of data.

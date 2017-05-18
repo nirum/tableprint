@@ -132,7 +132,7 @@ def header(headers, width=WIDTH, style=STYLE, add_hr=True):
     tablestyle = styles[style]
 
     # string formatter
-    data = map(lambda x: ('{:^%d}' % width).format(x), headers)
+    data = map(lambda x: ('{:^%d}' % (width + _ansi_len(x))).format(x), headers)
 
     # build the formatted str
     headerstr = _format_line(data, tablestyle.row)

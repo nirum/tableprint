@@ -8,3 +8,4 @@ lib64/
 *.zip
 docs/_build
 .coverage
+.mypy_cache/

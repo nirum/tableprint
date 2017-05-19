@@ -22,5 +22,5 @@ def test_row():
     assert row([1, 2, 3], width=3, style='clean') == '   1   2   3 '
 
     # invalid
-    with pytest.raises(ValueError) as context:
+    with pytest.raises(ValueError):
         row([{}])

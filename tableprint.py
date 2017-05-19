@@ -20,7 +20,7 @@ import numpy as np
 
 __all__ = ('table', 'header', 'row', 'hr', 'top', 'bottom',
            'banner', 'dataframe', 'humantime', 'styles')
-__version__ = '0.5.4'
+__version__ = '0.7.0'
 
 # set up table styles
 LineStyle = namedtuple('LineStyle', ('begin', 'hline', 'sep', 'end'))
@@ -131,15 +131,22 @@ def header(headers, width=WIDTH, style=STYLE, add_hr=True):
     """
     tablestyle = styles[style]
 
+    # parse width
+    if isinstance(width, int):
+        widths = [width] * len(headers)
+    else:
+        assert len(width) == len(headers), "Width and headers must have the same length"
+        widths = width
+
     # string formatter
-    data = map(lambda x: ('{:^%d}' % (width + _ansi_len(x))).format(x), headers)
+    data = map(lambda x: ('{:^%d}' % (x[0] + _ansi_len(x[1]))).format(x[1]), zip(widths, headers))
 
     # build the formatted str
     headerstr = _format_line(data, tablestyle.row)
 
     if add_hr:
-        upper = hr(len(headers), width, tablestyle.top)
-        lower = hr(len(headers), width, tablestyle.below_header)
+        upper = hr(len(headers), widths, tablestyle.top)
+        lower = hr(len(headers), widths, tablestyle.below_header)
         headerstr = '\n'.join([upper, headerstr, lower])
 
     return headerstr
@@ -169,6 +176,13 @@ def row(values, width=WIDTH, format_spec=FMT, style=STYLE):
     """
     tablestyle = styles[style]
 
+    # parse width
+    if isinstance(width, int):
+        widths = [width] * len(values)
+    else:
+        assert len(width) == len(values), "Width and values must have the same length"
+        widths = width
+
     assert isinstance(format_spec, string_types) | (type(format_spec) is list), \
         "format_spec must be a string or list of strings"
 
@@ -179,7 +193,7 @@ def row(values, width=WIDTH, format_spec=FMT, style=STYLE):
     def mapdata(val):
 
         # unpack
-        datum, prec = val
+        width, datum, prec = val
 
         if isinstance(datum, string_types):
             return ('{:>%i}' % (width + _ansi_len(datum))).format(datum)
@@ -191,7 +205,7 @@ def row(values, width=WIDTH, format_spec=FMT, style=STYLE):
             raise ValueError('Elements in the values array must be strings, ints, or floats')
 
     # string formatter
-    data = map(mapdata, zip(values, format_spec))
+    data = map(mapdata, zip(widths, values, format_spec))
 
     # build the row string
     return _format_line(data, tablestyle.row)
@@ -217,7 +231,14 @@ def hr(n, width=WIDTH, linestyle=LineStyle('', '─', '─', '')):
     rowstr : string
         A string consisting of the row border to print
     """
-    hrstr = linestyle.sep.join([('{:%s^%i}' % (linestyle.hline, width)).format('')] * n)
+
+    # parse width
+    if isinstance(width, int):
+        widths = [width] * n
+    else:
+        widths = width
+
+    hrstr = linestyle.sep.join([('{:%s^%i}' % (linestyle.hline, width)).format('') for width in widths])
     return linestyle.begin + hrstr + linestyle.end
 
 
@@ -282,19 +303,19 @@ def humantime(t):
         raise ValueError("Input must be numeric")
 
     # weeks
-    if t >= 7*60*60*24:
-        weeks = np.floor(t / (7.*60.*60.*24.))
-        timestr = "{:g} weeks, ".format(weeks) + humantime(t % (7*60*60*24))
+    if t >= 7 * 60 * 60 * 24:
+        weeks = np.floor(t / (7 * 60 * 60 * 24))
+        timestr = "{:g} weeks, ".format(weeks) + humantime(t % (7 * 60 * 60 * 24))
 
     # days
-    elif t >= 60*60*24:
-        days = np.floor(t / (60.*60.*24.))
-        timestr = "{:g} days, ".format(days) + humantime(t % (60*60*24))
+    elif t >= 60 * 60 * 24:
+        days = np.floor(t / (60 * 60 * 24))
+        timestr = "{:g} days, ".format(days) + humantime(t % (60 * 60 * 24))
 
     # hours
-    elif t >= 60*60:
-        hours = np.floor(t / (60.*60.))
-        timestr = "{:g} hours, ".format(hours) + humantime(t % (60*60))
+    elif t >= 60 * 60:
+        hours = np.floor(t / (60 * 60))
+        timestr = "{:g} hours, ".format(hours) + humantime(t % (60 * 60))
 
     # minutes
     elif t >= 60:
@@ -307,15 +328,15 @@ def humantime(t):
 
     # milliseconds
     elif t >= 1e-3:
-        timestr = "{:g} ms".format(t*1e3)
+        timestr = "{:g} ms".format(t * 1e3)
 
     # microseconds
     elif t >= 1e-6:
-        timestr = "{:g} \u03BCs".format(t*1e6)
+        timestr = "{:g} \u03BCs".format(t * 1e6)
 
     # nanoseconds or smaller
     else:
-        timestr = "{:g} ns".format(t*1e9)
+        timestr = "{:g} ns".format(t * 1e9)
 
     return timestr
 

@@ -14,6 +14,7 @@ from __future__ import print_function, unicode_literals
 from six import string_types
 from collections import namedtuple
 from numbers import Number
+from contextlib import ContextDecorator
 import sys
 import re
 import numpy as np
@@ -66,6 +67,22 @@ styles = {
 STYLE = 'round'
 WIDTH = 11
 FMT = '5g'
+
+
+class Table(ContextDecorator):
+    def __init__(self, headers, width=WIDTH, style=STYLE, add_hr=True):
+        self.headers = header(headers, width=WIDTH, style=STYLE, add_hr=add_hr)
+        self.bottom = bottom(len(headers), width=WIDTH, style=STYLE)
+
+    def __call__(self, data):
+        print(row(data), flush=True)
+
+    def __enter__(self):
+        print(self.headers, flush=True)
+        return self
+
+    def __exit__(self, *exc):
+        print(self.bottom, flush=True)
 
 
 def table(data, headers=None, format_spec=FMT, width=WIDTH, style=STYLE, out=sys.stdout):

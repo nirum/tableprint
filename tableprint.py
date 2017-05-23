@@ -14,7 +14,6 @@ from __future__ import print_function, unicode_literals
 from six import string_types
 from collections import namedtuple
 from numbers import Number
-from contextlib import ContextDecorator
 import sys
 import re
 import numpy as np
@@ -69,10 +68,10 @@ WIDTH = 11
 FMT = '5g'
 
 
-class Table(ContextDecorator):
+class Table:
     def __init__(self, headers, width=WIDTH, style=STYLE, add_hr=True):
-        self.headers = header(headers, width=WIDTH, style=STYLE, add_hr=add_hr)
-        self.bottom = bottom(len(headers), width=WIDTH, style=STYLE)
+        self.headers = header(headers, width=width, style=style, add_hr=add_hr)
+        self.bottom = bottom(len(headers), width=width, style=style)
 
     def __call__(self, data):
         print(row(data), flush=True)

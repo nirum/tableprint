@@ -70,6 +70,28 @@ FMT = '5g'
 
 class Table:
     def __init__(self, headers, width=WIDTH, style=STYLE, add_hr=True):
+        """Context manager for table printing
+
+        Parameters
+        ----------
+        headers : array_like
+            A list of N strings consisting of the header of each of the N columns
+
+        width : int, optional
+            The width of each column in the table (Default: 11)
+
+        style : string or tuple, optional
+            A formatting style. (Default: 'round')
+
+        add_hr : boolean, optional
+            Whether or not to add a horizontal rule (hr) after the headers
+
+        Usage
+        -----
+        >>> with Table("ABC") as t:
+                for k in range(10):
+                    t.row(np.random.randn(3))
+        """
         self.headers = header(headers, width=width, style=style, add_hr=add_hr)
         self.bottom = bottom(len(headers), width=width, style=style)
 

@@ -2,6 +2,7 @@
 """
 Table styles
 """
+from __future__ import print_function, unicode_literals
 from collections import namedtuple
 
 __all__ = ('STYLES', 'LineStyle', 'TableStyle')

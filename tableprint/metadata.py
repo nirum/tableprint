@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Version info
 __name__ = 'tableprint'
 __version__ = '0.6.7'

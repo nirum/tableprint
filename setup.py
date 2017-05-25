@@ -3,7 +3,7 @@ from setuptools import setup
 
 
 with open('metadata.py', 'r') as f:
-    metadata = dict(re.findall("", f.read()))
+    metadata = dict(re.findall("__([a-z]+)__\s*=\s*'([^']+)'", f.read()))
 
 
 setup(

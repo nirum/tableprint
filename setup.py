@@ -17,7 +17,6 @@ setup(
     author_email=metadata['author_email'],
 
     license=metadata['license'],
-
     description=metadata['description'],
     long_description='''Formatted console printing of tabular data.
                         tableprint lets you easily print formatted tables of data.

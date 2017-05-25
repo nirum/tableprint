@@ -19,7 +19,7 @@ import numpy as np
 from six import string_types
 
 from .style import LineStyle, STYLES
-from .utils import ansi_len, format_line
+from .utils import ansi_len, format_line, parse_width
 
 __all__ = ('table', 'header', 'row', 'hrule', 'top', 'bottom', 'banner', 'dataframe')
 
@@ -42,7 +42,7 @@ def table(data, headers=None, format_spec=FMT, width=WIDTH, style=STYLE, out=sys
     format_spec : string, optional
         Format specification for formatting numbers (Default: '5g')
 
-    width : int, optional
+    width : int or array_like, optional
         The width of each column in the table (Default: 11)
 
     style : string or tuple, optional
@@ -53,17 +53,18 @@ def table(data, headers=None, format_spec=FMT, width=WIDTH, style=STYLE, out=sys
     """
     ncols = len(data[0]) if headers is None else len(headers)
     tablestyle = STYLES[style]
+    widths = parse_width(width, ncols)
 
     # Initialize with a hr or the header
-    tablestr = [hrule(ncols, width, tablestyle.top)] \
-        if headers is None else [header(headers, width, style)]
+    tablestr = [hrule(ncols, widths, tablestyle.top)] \
+        if headers is None else [header(headers, widths, style)]
 
     # parse each row
-    tablestr += [row(d, width, format_spec, style) for d in data]
+    tablestr += [row(d, widths, format_spec, style) for d in data]
 
     # only add the final border if there was data in the table
     if len(data) > 0:
-        tablestr += [hrule(ncols, width, tablestyle.bottom)]
+        tablestr += [hrule(ncols, widths, tablestyle.bottom)]
 
     # print the table
     out.write('\n'.join(tablestr) + '\n')
@@ -90,16 +91,10 @@ def header(headers, width=WIDTH, style=STYLE, add_hr=True):
         A string consisting of the full header row to print
     """
     tablestyle = STYLES[style]
-
-    # parse width
-    if isinstance(width, int):
-        widths = [width] * len(headers)
-    else:
-        assert len(width) == len(headers), "Width and headers must have the same length"
-        widths = width
+    widths = parse_width(width, len(headers))
 
     # string formatter
-    data = map(lambda x: ('{:^%d}' % (x[0] + _ansi_len(x[1]))).format(x[1]), zip(widths, headers))
+    data = map(lambda x: ('{:^%d}' % (x[0] + ansi_len(x[1]))).format(x[1]), zip(widths, headers))
 
     # build the formatted str
     headerstr = format_line(data, tablestyle.row)
@@ -135,13 +130,7 @@ def row(values, width=WIDTH, format_spec=FMT, style=STYLE):
         A string consisting of the full row of data to print
     """
     tablestyle = STYLES[style]
-
-    # parse width
-    if isinstance(width, int):
-        widths = [width] * len(values)
-    else:
-        assert len(width) == len(values), "Width and values must have the same length"
-        widths = width
+    widths = parse_width(width, len(values))
 
     assert isinstance(format_spec, string_types) | isinstance(format_spec, list), \
         "format_spec must be a string or list of strings"
@@ -191,14 +180,9 @@ def hrule(n=1, width=WIDTH, linestyle=LineStyle('', '─', '─', '')):
     rowstr : string
         A string consisting of the row border to print
     """
-
-    # parse width
-    if isinstance(width, int):
-        widths = [width] * n
-    else:
-        widths = width
-
-    hrstr = linestyle.sep.join([('{:%s^%i}' % (linestyle.hline, width)).format('') for width in widths])
+    widths = parse_width(width, n)
+    hrstr = linestyle.sep.join([('{:%s^%i}' % (linestyle.hline, width)).format('')
+                                for width in widths])
     return linestyle.begin + hrstr + linestyle.end
 
 

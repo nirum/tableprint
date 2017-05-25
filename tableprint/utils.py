@@ -74,3 +74,21 @@ def ansi_len(string):
 def format_line(data, linestyle):
     """Formats a list of elements using the given line style"""
     return linestyle.begin + linestyle.sep.join(data) + linestyle.end
+
+
+def parse_width(width, n):
+    """Parses an int or array of widths
+
+    Parameters
+    ----------
+    width : int or array_like
+    n : int
+    """
+    if isinstance(width, int):
+        widths = [width] * n
+
+    else:
+        assert len(width) == n, "Widths and data do not match"
+        widths = width
+
+    return widths

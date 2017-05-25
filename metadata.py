@@ -1,6 +1,6 @@
 # Version info
 __name__ = 'tableprint'
-__version__ = '0.6.3'
+__version__ = '0.6.4'
 __license__ = 'MIT'
 
 # Project description(s)

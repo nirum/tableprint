@@ -1,28 +1,13 @@
+import re
 from setuptools import setup
 
+
+with open('metadata.py', 'r') as f:
+    metadata = dict(re.findall("", f.read()))
+
+
 setup(
-    name='tableprint',
-
-    # Versions should comply with PEP440.  For a discussion on single-sourcing
-    # the version across setup.py and the project code, see
-    # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.6.1',
-
-    description='Pretty console printing of tabular data',
-    long_description='''Formatted console printing of tabular data.
-                        tableprint lets you easily print formatted tables of data.
-                        Unlike other modules, you can print single rows of data at a time
-                        (useful for printing ongoing computation results).''',
-
-    # The project's main homepage.
-    url='https://github.com/nirum/tableprint',
-
-    # Author details
-    author='Niru Maheswaranathan',
-    author_email='niru@fastmail.com',
-
-    # Choose your license
-    license='MIT',
+    **metadata,
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
@@ -44,6 +29,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
 
     # What does your project relate to?

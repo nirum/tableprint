@@ -11,6 +11,7 @@ Usage
 >>> tableprint.table(data, headers)
 """
 from __future__ import print_function, unicode_literals
+from metadata import __version__
 from six import string_types
 from collections import namedtuple
 from numbers import Number
@@ -20,7 +21,6 @@ import numpy as np
 
 __all__ = ('table', 'header', 'row', 'hr', 'top', 'bottom',
            'banner', 'dataframe', 'humantime', 'styles')
-__version__ = '0.5.4'
 
 # set up table styles
 LineStyle = namedtuple('LineStyle', ('begin', 'hline', 'sep', 'end'))

@@ -1,28 +1,27 @@
+import re
+import os
 from setuptools import setup
+
+
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+with open(os.path.join(__location__, 'tableprint/metadata.py'), 'r') as f:
+    metadata = dict(re.findall("__([a-z_]+)__\s*=\s*'([^']+)'", f.read()))
+
 
 setup(
     name='tableprint',
+    url=metadata['url'],
+    version=metadata['version'],
 
-    # Versions should comply with PEP440.  For a discussion on single-sourcing
-    # the version across setup.py and the project code, see
-    # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.7.0',
+    author=metadata['author'],
+    author_email=metadata['author_email'],
 
-    description='Pretty console printing of tabular data',
+    license=metadata['license'],
+    description=metadata['description'],
     long_description='''Formatted console printing of tabular data.
                         tableprint lets you easily print formatted tables of data.
                         Unlike other modules, you can print single rows of data at a time
                         (useful for printing ongoing computation results).''',
-
-    # The project's main homepage.
-    url='https://github.com/nirum/tableprint',
-
-    # Author details
-    author='Niru Maheswaranathan',
-    author_email='niru@fastmail.com',
-
-    # Choose your license
-    license='MIT',
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
@@ -44,6 +43,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
 
     # What does your project relate to?
@@ -51,8 +51,7 @@ setup(
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
-    packages=[],
-    py_modules=['tableprint'],
+    packages=['tableprint'],
 
     # List run-time dependencies here.  These will be installed by pip when your
     # project is installed. For an analysis of "install_requires" vs pip's
@@ -67,5 +66,4 @@ setup(
         'dev': [],
         'test': ['pytest', 'coverage'],
     },
-
 )

@@ -14,6 +14,6 @@ test:
 	nosetests -v --with-coverage --cover-package=tableprint --logging-level=INFO
 
 clean:
-	rm -rf tableprint.egg-info
-	rm -f *.pyc
-	rm -rf __pycache__
+	rm -R tableprint.egg-info
+	rm -f tableprint/*.pyc
+	rm -R tableprint/__pycache__/

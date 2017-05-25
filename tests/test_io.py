@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from tableprint import table, banner, dataframe, hr
+from tableprint import table, banner, dataframe, hrule
 from io import StringIO
 import numpy as np
 
@@ -23,6 +23,7 @@ def test_frame():
         def __init__(self, data, headers):
             self.data = data
             self.columns = headers
+
         def __array__(self):
             return self.data
 
@@ -44,8 +45,8 @@ def test_banner():
     assert output.getvalue() == '╒═╕\n│!│\n╘═╛\n'
 
 
-def test_hr():
+def test_hrule():
 
-    output = hr(1, width=11)
+    output = hrule(1, width=11)
     assert len(output) == 11
     assert '───────────'

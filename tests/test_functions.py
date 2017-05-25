@@ -5,6 +5,7 @@ import pytest
 
 
 def test_borders():
+    """Tests printing of the top and bottom borders"""
 
     # top
     assert top(5, width=2, style='round') == '╭──┬──┬──┬──┬──╮'
@@ -16,11 +17,12 @@ def test_borders():
 
 
 def test_row():
+    """Tests printing of a single row of data"""
 
     # valid
     assert row("abc", width=3, style='round') == '│  a│  b│  c│'
     assert row([1, 2, 3], width=3, style='clean') == '   1   2   3 '
 
     # invalid
-    with pytest.raises(ValueError) as context:
+    with pytest.raises(ValueError):
         row([{}])

@@ -49,6 +49,7 @@ Hosted at Read The Docs: [tableprint.readthedocs.org](http://tableprint.readthed
 - `six`
 
 ## Version
+- 0.7.0 (May 25 2017) Adds support for variable widths across columns
 - 0.6.9 (May 25 2017) Splitting the tableprint.py module into a pacakge with multiple files
 - 0.6.7 (May 25 2017) Fixes some bugs with ANSI escape sequences
 - 0.5.0 (Sept 29 2016) Better handling of ANSI escape sequences in table rows

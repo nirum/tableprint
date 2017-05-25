@@ -9,7 +9,7 @@ with open(os.path.join(__location__, 'metadata.py'), 'r') as f:
 
 
 setup(
-    name=metadata['name'],
+    name='tableprint',
     url=metadata['url'],
     version=metadata['version'],
 

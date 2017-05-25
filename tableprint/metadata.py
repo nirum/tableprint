@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Version info
-__name__ = 'tableprint'
-__version__ = '0.6.7'
+__version__ = '0.6.8'
 __license__ = 'MIT'
 
 # Project description(s)

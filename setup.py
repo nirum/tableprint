@@ -7,6 +7,16 @@ with open('metadata.py', 'r') as f:
 
 
 setup(
+    name=metadata['name'],
+    url=metadata['url'],
+    version=metadata['version'],
+
+    author=metadata['author'],
+    author_email=metadata['author_email'],
+
+    license=metadata['license'],
+
+    description=metadata['description'],
     long_description='''Formatted console printing of tabular data.
                         tableprint lets you easily print formatted tables of data.
                         Unlike other modules, you can print single rows of data at a time
@@ -56,6 +66,4 @@ setup(
         'dev': [],
         'test': ['pytest', 'coverage'],
     },
-
-    **metadata,
 )

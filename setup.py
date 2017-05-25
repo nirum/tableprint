@@ -1,8 +1,10 @@
 import re
+import os
 from setuptools import setup
 
 
-with open('metadata.py', 'r') as f:
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+with open(os.path.join(__location__, 'metadata.py'), 'r') as f:
     metadata = dict(re.findall("__([a-z_]+)__\s*=\s*'([^']+)'", f.read()))
 
 

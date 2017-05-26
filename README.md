@@ -28,23 +28,35 @@ pip install tableprint
 ```
 
 ## Usage
-The `tableprint.table` function takes in a matrix of data, a list of headers, a width (defaults to 11) and a style (defaults to 'round'). To print a dataset consisting of 10 rows of 3 different columns with the default width and style:
+The `table` function takes in a matrix of data, a list of headers, a width (defaults to 11) and a style (defaults to 'round'). To print a dataset consisting of 10 rows of 3 different columns with the default width and style:
 ```python
-import tableprint
+import tableprint as tp
 import numpy as np
 
 data = np.random.randn(10, 3)
 headers = ['Column A', 'Column B', 'Column C']
 
-tableprint.table(data, headers)
+tp.table(data, headers)
 ```
 The `header` and `row` functions allow you to print just the header or just a row of data, respectively, which is useful for continuously updating a table during a long-running computation. Also, the `banner` function is useful for just printing out a nicely formatted message to the user.
+
+The `TableContext` context manager is useful for dynamically updating tables (e.g. during a long running computation):
+```python
+import tableprint as tp
+import numpy as np
+import time
+
+with tp.TableContext("ABC") as t:
+    for _ in range(10):
+        time.sleep(0.1)
+        t(np.random.randn(3,))
+```
 
 ## Documentation
 Hosted at Read The Docs: [tableprint.readthedocs.org](http://tableprint.readthedocs.org)
 
 ## Dependencies
-- Python 2.7 or 3.3+
+- Python 3.6, 3.5, 3.4, or 2.7
 - `numpy`
 - `six`
 

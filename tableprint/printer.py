@@ -21,11 +21,54 @@ from six import string_types
 from .style import LineStyle, STYLES
 from .utils import ansi_len, format_line, parse_width
 
-__all__ = ('table', 'header', 'row', 'hrule', 'top', 'bottom', 'banner', 'dataframe')
+__all__ = ('table', 'header', 'row', 'hrule', 'top', 'bottom', 'banner', 'dataframe', 'TableContext')
 
 STYLE = 'round'
 WIDTH = 11
 FMT = '5g'
+
+
+class TableContext:
+    def __init__(self, headers, width=WIDTH, style=STYLE, add_hr=True, out=sys.stdout):
+        """Context manager for table printing
+
+        Parameters
+        ----------
+        headers : array_like
+            A list of N strings consisting of the header of each of the N columns
+
+        width : int or array_like, optional
+            The width of each column in the table (Default: 11)
+
+        style : string or tuple, optional
+            A formatting style. (Default: 'round')
+
+        add_hr : boolean, optional
+            Whether or not to add a horizontal rule (hr) after the headers
+
+        Usage
+        -----
+        >>> with TableContext("ABC") as t:
+                for k in range(10):
+                    t.row(np.random.randn(3))
+        """
+        self.out = out
+        self.config = {'width': width, 'style': style}
+        self.headers = header(headers, add_hr=add_hr, **self.config)
+        self.bottom = bottom(len(headers), **self.config)
+
+    def __call__(self, data):
+        self.out.write(row(data, **self.config) + '\n')
+        self.out.flush()
+
+    def __enter__(self):
+        self.out.write(self.headers + '\n')
+        self.out.flush()
+        return self
+
+    def __exit__(self, *exc):
+        self.out.write(self.bottom + '\n')
+        self.out.flush()
 
 
 def table(data, headers=None, format_spec=FMT, width=WIDTH, style=STYLE, out=sys.stdout):

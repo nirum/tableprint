@@ -6,13 +6,13 @@ Pretty console printing :clipboard: of tabular data in python :snake:
 [![Documentation Status](https://readthedocs.org/projects/tableprint/badge/?version=latest)](https://tableprint.readthedocs.io/?badge=latest)
 [![PyPi version](https://img.shields.io/pypi/v/tableprint.svg)](https://pypi.python.org/pypi/tableprint)
 
-## About
+## ℹ︎ About
 `tableprint` lets you easily print formatted tables of data.
 Unlike other modules, you can print single rows of data at a time (useful for printing ongoing computation results).
 
 ![Example output](https://raw.githubusercontent.com/nirum/tableprint/master/example.png)
 
-## Table of Contents
+## 🔎 Table of Contents
 
   * [About](#about)
   * [Installation](#installation)
@@ -22,12 +22,12 @@ Unlike other modules, you can print single rows of data at a time (useful for pr
   * [Version](#version)
   * [License](#license)
 
-## Installation
+## 💻 Installation
 ```bash
 pip install tableprint
 ```
 
-## Usage
+## 🏃 Usage
 The `table` function takes in a matrix of data, a list of headers, a width (defaults to 11) and a style (defaults to 'round'). To print a dataset consisting of 10 rows of 3 different columns with the default width and style:
 ```python
 import tableprint as tp
@@ -52,10 +52,10 @@ with tp.TableContext("ABC") as t:
         t(np.random.randn(3,))
 ```
 
-## Documentation
+## 📚 Documentation
 Hosted at Read The Docs: [tableprint.readthedocs.org](http://tableprint.readthedocs.org)
 
-## Dependencies
+## 📦 Dependencies
 - Python 3.6, 3.5, 3.4, or 2.7
 - `numpy`
 - `six`
@@ -75,5 +75,5 @@ Hosted at Read The Docs: [tableprint.readthedocs.org](http://tableprint.readthed
 | 0.1.4 | Sept 28 2015 | Added human readable string converter (hrtime)
 | 0.1.0 | Feb 24 2015 | Initial release
 
-## License
+## 🔓 License
 MIT. See `LICENSE.md`

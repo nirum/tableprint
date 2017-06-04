@@ -1,14 +1,16 @@
+==========
 Tableprint
-----------
+==========
 
-Tableprint is a library for printing out numerical data in Ascii formatted tables. Check it out on `Github`_!
+About
+-----
+Tableprint is a library for printing out numerical data in Ascii formatted tables. Check it out on `github`. You can use it to print single rows of data at a time (useful for printing ongoing computation results).
 
 .. _Github: https://github.com/nirum/tableprint/
 
 Installation
 ------------
-
-First, we need to install the module. We can do that using ``pip``: 
+Using ``pip``: 
 
 .. code-block:: bash
 
@@ -16,8 +18,7 @@ First, we need to install the module. We can do that using ``pip``:
 
 Quickstart
 ----------
-
-Now let's see what we can do. Tableprint offers two functions that print a table directly,
+Tableprint offers two functions that print a table directly,
 ``tableprint.table`` and ``tableprint.dataframe``. The first takes a numpy array and a list of
 headers, whereas the second takes a pandas DataFrame as input. For example, you can do the following:
 
@@ -53,10 +54,8 @@ what unicode or ascii characters to use to build the table. The available styles
 
 API
 ---
-
-Tableprint comes with a number of options, these are fully described below:
-
 .. autofunction:: tableprint.table
+.. autofunction:: tableprint.TableContext
 .. autofunction:: tableprint.dataframe
 .. autofunction:: tableprint.banner
 .. autofunction:: tableprint.header

@@ -63,6 +63,7 @@ Hosted at Read The Docs: [tableprint.readthedocs.org](http://tableprint.readthed
 ## 🛠 Changelog
 | Version | Release Date | Description |
 |    ---: |      :---:   | :---        |
+| 0.8.0 | Oct 24 2017 | Improves support for international languages
 | 0.7.0 | May 26 2017 | Adds a TableContext context manager for easy creation of dynamic tables (tables that update periodically). Adds the ability to pass a list or tuple of widths to specify different widths for different columns
 | 0.6.9 | May 25 2017 | Splitting the tableprint.py module into a pacakge with multiple files
 | 0.6.7 | May 25 2017 | Fixes some bugs with ANSI escape sequences

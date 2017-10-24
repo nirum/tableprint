@@ -3,6 +3,7 @@
 Tableprint utilities
 """
 from __future__ import print_function, unicode_literals
+from wcwidth import wcswidth
 import re
 import numpy as np
 
@@ -68,7 +69,7 @@ def humantime(time):
 
 def ansi_len(string):
     """Extra length due to any ANSI sequences in the string."""
-    return len(string) - len(re.compile(r'\x1b[^m]*m').sub('', string))
+    return len(string) - wcswidth(re.compile(r'\x1b[^m]*m').sub('', string))
 
 
 def format_line(data, linestyle):

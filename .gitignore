@@ -9,3 +9,4 @@ lib64/
 docs/_build
 .coverage
 .mypy_cache/
+tags

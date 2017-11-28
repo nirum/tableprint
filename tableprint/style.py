@@ -29,10 +29,10 @@ STYLES = {
         row=LineStyle(' ', '', ' ', ' '),
     ),
     'round': TableStyle(
-        top=LineStyle('╭', '─', '┬', '╮'),
-        below_header=LineStyle('├', '─', '┼', '┤'),
-        bottom=LineStyle('╰', '─', '┴', '╯'),
-        row=LineStyle('│', '', '│', '│'),
+        top=LineStyle('╭─', '─', '─┬─', '─╮'),
+        below_header=LineStyle('├─', '─', '─┼─', '─┤'),
+        bottom=LineStyle('╰─', '─', '─┴─', '─╯'),
+        row=LineStyle('│ ', '', ' │ ', ' │'),
     ),
     'banner': TableStyle(
         top=LineStyle('╒', '═', '╤', '╕'),

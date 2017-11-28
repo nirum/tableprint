@@ -11,14 +11,14 @@ def test_context():
     with TableContext('ABC', style='round', width=5, out=output) as t:
         t([1, 2, 3])
         t([4, 5, 6])
-    assert output.getvalue() == '╭─────┬─────┬─────╮\n│  A  │  B  │  C  │\n├─────┼─────┼─────┤\n│    1│    2│    3│\n│    4│    5│    6│\n╰─────┴─────┴─────╯\n'
+    assert output.getvalue() == '╭───────┬───────┬───────╮\n│   A   │   B   │   C   │\n├───────┼───────┼───────┤\n│     1 │     2 │     3 │\n│     4 │     5 │     6 │\n╰───────┴───────┴───────╯\n'
 
 
 def test_table():
     """Tests the table function"""
     output = StringIO()
     table([[1, 2, 3], [4, 5, 6]], 'ABC', style='round', width=5, out=output)
-    assert output.getvalue() == '╭─────┬─────┬─────╮\n│  A  │  B  │  C  │\n├─────┼─────┼─────┤\n│    1│    2│    3│\n│    4│    5│    6│\n╰─────┴─────┴─────╯\n'
+    assert output.getvalue() == '╭───────┬───────┬───────╮\n│   A   │   B   │   C   │\n├───────┼───────┼───────┤\n│     1 │     2 │     3 │\n│     4 │     5 │     6 │\n╰───────┴───────┴───────╯\n'
 
     output = StringIO()
     table(["bar"], "foo", style='grid', width=3, out=output)

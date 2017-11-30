@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Version info
-__version__ = '0.8.0'
+__version__ = '0.7.1'
 __license__ = 'MIT'
 
 # Project description(s)

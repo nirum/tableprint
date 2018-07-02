@@ -60,6 +60,9 @@ Hosted at Read The Docs: [tableprint.readthedocs.org](http://tableprint.readthed
 - [future](https://pypi.org/project/future/)
 - [six](https://pypi.org/project/six/)
 
+## :heart: Contributors
+Thanks to: [@nowox](https://github.com/nowox), [@nicktimko](https://github.com/nicktimko), and [@mubaris](https://github.com/mubaris) for contributions.
+
 ## 🛠 Changelog
 | Version | Release Date | Description |
 |    ---: |      :---:   | :---        |

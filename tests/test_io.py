@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from tableprint import table, banner, dataframe, hrule, TableContext
 from io import StringIO
-import numpy as np
+import pandas as pd
 
 
 def test_context():
@@ -27,17 +27,7 @@ def test_table():
 
 def test_frame():
     """Tests the dataframe function"""
-    # mock of a pandas DataFrame
-    class DataFrame:
-        def __init__(self, data, headers):
-            self.data = data
-            self.columns = headers
-
-        def __array__(self):
-            return self.data
-
-    # build a mock DataFrame
-    df = DataFrame(np.array([[1, 2, 3]]), ['a', 'b', 'c'])
+    df = pd.DataFrame({'a': [1,], 'b': [2,], 'c': [3,]})
     output = StringIO()
     dataframe(df, width=4, style='fancy_grid', out=output)
     assert output.getvalue() == '╒════╤════╤════╕\n│ a  │ b  │ c  │\n╞════╪════╪════╡\n│   1│   2│   3│\n╘════╧════╧════╛\n'

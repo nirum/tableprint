@@ -15,7 +15,6 @@ from __future__ import print_function, unicode_literals
 import sys
 from numbers import Number
 
-import numpy as np
 from six import string_types
 
 from .style import LineStyle, STYLES
@@ -268,4 +267,4 @@ def dataframe(df, **kwargs):
     df : DataFrame
         A pandas DataFrame with the table to print
     """
-    table(np.array(df), list(df.columns), **kwargs)
+    table(df.values, list(df.columns), **kwargs)

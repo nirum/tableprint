@@ -4,8 +4,8 @@ Tableprint utilities
 """
 from __future__ import print_function, unicode_literals
 from wcwidth import wcswidth
+import math
 import re
-import numpy as np
 
 __all__ = ('humantime',)
 
@@ -30,22 +30,22 @@ def humantime(time):
 
     # weeks
     if time >= 7 * 60 * 60 * 24:
-        weeks = np.floor(time / (7 * 60 * 60 * 24))
+        weeks = math.floor(time / (7 * 60 * 60 * 24))
         timestr = "{:g} weeks, ".format(weeks) + humantime(time % (7 * 60 * 60 * 24))
 
     # days
     elif time >= 60 * 60 * 24:
-        days = np.floor(time / (60 * 60 * 24))
+        days = math.floor(time / (60 * 60 * 24))
         timestr = "{:g} days, ".format(days) + humantime(time % (60 * 60 * 24))
 
     # hours
     elif time >= 60 * 60:
-        hours = np.floor(time / (60 * 60))
+        hours = math.floor(time / (60 * 60))
         timestr = "{:g} hours, ".format(hours) + humantime(time % (60 * 60))
 
     # minutes
     elif time >= 60:
-        minutes = np.floor(time / 60.)
+        minutes = math.floor(time / 60.)
         timestr = "{:g} min., ".format(minutes) + humantime(time % 60)
 
     # seconds

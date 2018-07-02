@@ -5,7 +5,8 @@ develop:
 	python setup.py develop
 
 upload:
-	python setup.py sdist upload
+	python setup.py sdist bdist_wheel
+	twine upload dist/*
 
 test2:
 	python2 /Users/nirum/anaconda/bin/nosetests --logging-level=INFO

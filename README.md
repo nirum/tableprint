@@ -14,13 +14,14 @@ Unlike other modules, you can print single rows of data at a time (useful for pr
 
 ## 🔎 Table of Contents
 
-  * [About](#about)
-  * [Installation](#installation)
-  * [Usage](#usage)
-  * [Documentation](#documentation)
-  * [Dependencies](#dependencies)
-  * [Version](#version)
-  * [License](#license)
+  * [About](#ℹ%EF%B8%8E-about)
+  * [Installation](#-installation)
+  * [Usage](#-usage)
+  * [Documentation](#-documentation)
+  * [Dependencies](#-dependencies)
+  * [Contributors](#heart-contributors)
+  * [Changelog](#-changelog)
+  * [License](#-license)
 
 ## 💻 Installation
 ```bash

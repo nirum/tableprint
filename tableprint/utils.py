@@ -93,3 +93,18 @@ def parse_width(width, n):
         widths = width
 
     return widths
+
+
+def calculate_widths(data, headers):
+    """Sets widths to max of columns' contents
+
+    Parameters
+    ----------
+    data : array_like
+    headers: array_like
+    """
+    max_widths = list(map(len, headers))
+    for row in data:
+        max_widths = list(map(max, list(map(len, row)), max_widths))
+
+    return max_widths

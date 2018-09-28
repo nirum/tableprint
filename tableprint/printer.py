@@ -18,12 +18,12 @@ from numbers import Number
 from six import string_types
 
 from .style import LineStyle, STYLES
-from .utils import ansi_len, format_line, parse_width
+from .utils import ansi_len, format_line, parse_width, calculate_widths
 
 __all__ = ('table', 'header', 'row', 'hrule', 'top', 'bottom', 'banner', 'dataframe', 'TableContext')
 
 STYLE = 'round'
-WIDTH = 11
+WIDTH = 0
 FMT = '5g'
 
 
@@ -37,7 +37,7 @@ class TableContext:
             A list of N strings consisting of the header of each of the N columns
 
         width : int or array_like, optional
-            The width of each column in the table (Default: 11)
+            The width of each column in the table (Default: auto)
 
         style : string or tuple, optional
             A formatting style. (Default: 'round')
@@ -85,7 +85,7 @@ def table(data, headers=None, format_spec=FMT, width=WIDTH, style=STYLE, out=sys
         Format specification for formatting numbers (Default: '5g')
 
     width : int or array_like, optional
-        The width of each column in the table (Default: 11)
+        The width of each column in the table (Default: auto)
 
     style : string or tuple, optional
         A formatting style. (Default: 'fancy_grid')
@@ -95,7 +95,10 @@ def table(data, headers=None, format_spec=FMT, width=WIDTH, style=STYLE, out=sys
     """
     ncols = len(data[0]) if headers is None else len(headers)
     tablestyle = STYLES[style]
-    widths = parse_width(width, ncols)
+    if width > 0:
+        widths = parse_width(width, ncols)
+    else:
+        widths = calculate_widths(data, headers)
 
     # Initialize with a hr or the header
     tablestr = [hrule(ncols, widths, tablestyle.top)] \

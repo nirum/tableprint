@@ -19,6 +19,10 @@ def test_table():
     output = StringIO()
     table([[1, 2, 3], [4, 5, 6]], 'ABC', style='round', width=5, out=output)
     assert output.getvalue() == '╭───────┬───────┬───────╮\n│   A   │   B   │   C   │\n├───────┼───────┼───────┤\n│     1 │     2 │     3 │\n│     4 │     5 │     6 │\n╰───────┴───────┴───────╯\n'
+    
+    output = StringIO()
+    table([[111, 2, 3], [4, 55, 6]], 'ABC', style='round', out=output)
+    assert output.getvalue() == '╭─────┬────┬───╮\n│  A  │ B  │ C │\n├─────┼────┼───┤\n│ 111 │  2 │ 3 │\n│   4 │ 55 │ 6 │\n╰─────┴────┴───╯\n'
 
     output = StringIO()
     table(["bar"], "foo", style='grid', width=3, out=output)

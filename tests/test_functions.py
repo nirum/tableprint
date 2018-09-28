@@ -9,6 +9,7 @@ def test_borders():
 
     # top
     assert top(5, width=2, style='round') == '╭────┬────┬────┬────┬────╮'
+    assert top(5, style='round') == '╭──┬──┬──┬──┬──╮'
     assert top(1, width=6, style='grid') == '+------+'
 
     # bottom
@@ -21,6 +22,7 @@ def test_row():
 
     # valid
     assert row("abc", width=3, style='round') == '│   a │   b │   c │'
+    assert row("abc", style='round') == '│ a │ b │ c │'
     assert row([1, 2, 3], width=3, style='clean') == '   1   2   3 '
 
     # invalid

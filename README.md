@@ -29,7 +29,7 @@ pip install tableprint
 ```
 
 ## 🏃 Usage
-The `table` function takes in a matrix of data, a list of headers, a width (defaults to 11) and a style (defaults to 'round'). To print a dataset consisting of 10 rows of 3 different columns with the default width and style:
+The `table` function takes in a matrix of data, a list of headers, a width (defaults to automatic) and a style (defaults to 'round'). To print a dataset consisting of 10 rows of 3 different columns with the default style:
 ```python
 import tableprint as tp
 import numpy as np

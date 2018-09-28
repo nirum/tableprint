@@ -105,6 +105,6 @@ def calculate_widths(data, headers):
     """
     max_widths = list(map(len, map(str, headers)))
     for row in data:
-        max_widths = list(map(max, list(map(len, map(str, row))), max_widths))
+        max_widths = list(map(max, map(len, map(str, row)), max_widths))
 
     return max_widths

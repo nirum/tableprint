@@ -9,7 +9,7 @@ upload:
 	twine upload dist/*
 
 test2:
-	python2 /Users/nirum/anaconda/bin/nosetests --logging-level=INFO
+	python2 -m nose --logging-level=INFO
 
 test:
 	nosetests -v --with-coverage --cover-package=tableprint --logging-level=INFO

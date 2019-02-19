@@ -22,13 +22,16 @@ from .utils import ansi_len, format_line, parse_width
 
 __all__ = ('table', 'header', 'row', 'hrule', 'top', 'bottom', 'banner', 'dataframe', 'TableContext')
 
+# Defaults
 STYLE = 'round'
 WIDTH = 11
 FMT = '5g'
+ALIGN = 'right'
+ALIGNMENTS = {"left": "<", "right": ">", "center": "^"}
 
 
 class TableContext:
-    def __init__(self, headers, width=WIDTH, style=STYLE, add_hr=True, out=sys.stdout):
+    def __init__(self, headers, width=WIDTH, align=ALIGN, style=STYLE, add_hr=True, out=sys.stdout):
         """Context manager for table printing
 
         Parameters
@@ -38,6 +41,9 @@ class TableContext:
 
         width : int or array_like, optional
             The width of each column in the table (Default: 11)
+
+        align : string
+            The alignment to use ('left', 'center', or 'right'). (Default: 'right')
 
         style : string or tuple, optional
             A formatting style. (Default: 'round')
@@ -52,9 +58,9 @@ class TableContext:
                     t.row(np.random.randn(3))
         """
         self.out = out
-        self.config = {'width': width, 'style': style}
+        self.config = {'width': width, 'style': style, 'align': align}
         self.headers = header(headers, add_hr=add_hr, **self.config)
-        self.bottom = bottom(len(headers), **self.config)
+        self.bottom = bottom(len(headers), width=width, style=style)
 
     def __call__(self, data):
         self.out.write(row(data, **self.config) + '\n')
@@ -70,7 +76,7 @@ class TableContext:
         self.out.flush()
 
 
-def table(data, headers=None, format_spec=FMT, width=WIDTH, style=STYLE, out=sys.stdout):
+def table(data, headers=None, format_spec=FMT, width=WIDTH, align=ALIGN, style=STYLE, out=sys.stdout):
     """Print a table with the given data
 
     Parameters
@@ -87,22 +93,26 @@ def table(data, headers=None, format_spec=FMT, width=WIDTH, style=STYLE, out=sys
     width : int or array_like, optional
         The width of each column in the table (Default: 11)
 
+    align : string
+        The alignment to use ('left', 'center', or 'right'). (Default: 'right')
+
     style : string or tuple, optional
         A formatting style. (Default: 'fancy_grid')
 
     out : writer, optional
         A file handle or object that has write() and flush() methods (Default: sys.stdout)
     """
+    # Number of columns in the table.
     ncols = len(data[0]) if headers is None else len(headers)
     tablestyle = STYLES[style]
     widths = parse_width(width, ncols)
 
     # Initialize with a hr or the header
     tablestr = [hrule(ncols, widths, tablestyle.top)] \
-        if headers is None else [header(headers, widths, style)]
+        if headers is None else [header(headers, width=widths, align=align, style=style)]
 
     # parse each row
-    tablestr += [row(d, widths, format_spec, style) for d in data]
+    tablestr += [row(d, widths, format_spec, align, style) for d in data]
 
     # only add the final border if there was data in the table
     if len(data) > 0:
@@ -113,7 +123,7 @@ def table(data, headers=None, format_spec=FMT, width=WIDTH, style=STYLE, out=sys
     out.flush()
 
 
-def header(headers, width=WIDTH, style=STYLE, add_hr=True):
+def header(headers, width=WIDTH, align=ALIGN, style=STYLE, add_hr=True):
     """Returns a formatted row of column header strings
 
     Parameters
@@ -134,9 +144,10 @@ def header(headers, width=WIDTH, style=STYLE, add_hr=True):
     """
     tablestyle = STYLES[style]
     widths = parse_width(width, len(headers))
+    alignment = ALIGNMENTS[align]
 
     # string formatter
-    data = map(lambda x: ('{:^%d}' % (x[0] + ansi_len(x[1]))).format(x[1]), zip(widths, headers))
+    data = map(lambda x: ('{:%s%d}' % (alignment, x[0] + ansi_len(x[1]))).format(x[1]), zip(widths, headers))
 
     # build the formatted str
     headerstr = format_line(data, tablestyle.row)
@@ -149,7 +160,7 @@ def header(headers, width=WIDTH, style=STYLE, add_hr=True):
     return headerstr
 
 
-def row(values, width=WIDTH, format_spec=FMT, style=STYLE):
+def row(values, width=WIDTH, format_spec=FMT, align=ALIGN, style=STYLE):
     """Returns a formatted row of data
 
     Parameters
@@ -162,6 +173,9 @@ def row(values, width=WIDTH, format_spec=FMT, style=STYLE):
 
     format_spec : string
         The precision format string used to format numbers in the values array (Default: '5g')
+
+    align : string
+        The alignment to use ('left', 'center', or 'right'). (Default: 'right')
 
     style : namedtuple, optional
         A line formatting style
@@ -187,10 +201,10 @@ def row(values, width=WIDTH, format_spec=FMT, style=STYLE):
         width, datum, prec = val
 
         if isinstance(datum, string_types):
-            return ('{:>%i}' % (width + ansi_len(datum))).format(datum)
+            return ('{:%s%i}' % (ALIGNMENTS[align], width + ansi_len(datum))).format(datum)
 
         elif isinstance(datum, Number):
-            return ('{:>%i.%s}' % (width, prec)).format(datum)
+            return ('{:%s%i.%s}' % (ALIGNMENTS[align], width, prec)).format(datum)
 
         else:
             raise ValueError('Elements in the values array must be strings, ints, or floats')
@@ -255,7 +269,7 @@ def banner(message, width=30, style='banner', out=sys.stdout):
     out : writer
         An object that has write() and flush() methods (Default: sys.stdout)
     """
-    out.write(header([message], max(width, len(message)), style) + '\n')
+    out.write(header([message], width=max(width, len(message)), style=style) + '\n')
     out.flush()
 
 

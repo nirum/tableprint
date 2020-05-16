@@ -57,7 +57,7 @@ with tp.TableContext("ABC") as t:
 Hosted at Read The Docs: [tableprint.readthedocs.org](http://tableprint.readthedocs.org)
 
 ## 📦 Dependencies
-- Python 3.6, 3.5, 3.4, or 2.7
+- Python 3.5+ or 2.7
 - [future](https://pypi.org/project/future/)
 - [six](https://pypi.org/project/six/)
 

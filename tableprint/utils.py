@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
-"""
-Tableprint utilities
-"""
+"""Tableprint utilities."""
+
 from __future__ import print_function, unicode_literals
-from wcwidth import wcswidth
+
+from functools import reduce
 import math
 import re
+
+from numbers import Number
+from six import string_types
+from wcwidth import wcswidth
 
 __all__ = ('humantime',)
 
@@ -78,7 +82,7 @@ def format_line(data, linestyle):
 
 
 def parse_width(width, n):
-    """Parses an int or array of widths
+    """Parses an int or array of widths.
 
     Parameters
     ----------
@@ -89,7 +93,22 @@ def parse_width(width, n):
         widths = [width] * n
 
     else:
-        assert len(width) == n, "Widths and data do not match"
+        assert len(width) == n, "Widths and data do not match."
         widths = width
 
     return widths
+
+
+def max_width(data, format_spec):
+    """Computes the maximum formatted width of an iterable of data."""
+
+    def compute_width(d):
+        """Computes the formatted width of single element."""
+        if isinstance(d, string_types):
+          return len(d)
+        if isinstance(d, Number):
+          return len(('{:0.%s}' % format_spec).format(d))
+        else:
+            raise ValueError('Elements in the values array must be strings, ints, or floats')
+
+    return reduce(max, map(compute_width, data))

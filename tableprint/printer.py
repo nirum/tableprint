@@ -12,19 +12,20 @@ Usage
 """
 from __future__ import print_function, unicode_literals
 
-import sys
+from itertools import chain, starmap
 from numbers import Number
+import sys
 
 from six import string_types
 
 from .style import LineStyle, STYLES
-from .utils import ansi_len, format_line, parse_width
+from .utils import ansi_len, format_line, parse_width, max_width
 
 __all__ = ('table', 'header', 'row', 'hrule', 'top', 'bottom', 'banner', 'dataframe', 'TableContext')
 
 # Defaults
 STYLE = 'round'
-WIDTH = 11
+WIDTH = None
 FMT = '5g'
 ALIGN = 'right'
 ALIGNMENTS = {"left": "<", "right": ">", "center": "^"}
@@ -36,20 +37,25 @@ class TableContext:
 
         Parameters
         ----------
-        headers : array_like
+        headers: array_like
             A list of N strings consisting of the header of each of the N columns
 
-        width : int or array_like, optional
+        width: int or array_like, optional
             The width of each column in the table (Default: 11)
 
-        align : string
+        align: str
             The alignment to use ('left', 'center', or 'right'). (Default: 'right')
 
-        style : string or tuple, optional
+        style: str or tuple, optional
             A formatting style. (Default: 'round')
 
-        add_hr : boolean, optional
+        add_hr: boolean, optional
             Whether or not to add a horizontal rule (hr) after the headers
+
+        out: IO writer, optional
+            Object used to manage IO (displaying the table). Must have a write() method
+            that takes a string argument, and a flush() method. See sys.stdout for an
+            example. (Default: 'sys.stdout')
 
         Usage
         -----
@@ -90,8 +96,9 @@ def table(data, headers=None, format_spec=FMT, width=WIDTH, align=ALIGN, style=S
     format_spec : string, optional
         Format specification for formatting numbers (Default: '5g')
 
-    width : int or array_like, optional
-        The width of each column in the table (Default: 11)
+    width : int or None or array_like, optional
+        The width of each column in the table. If None, tries to estimate an appropriate width
+        based on the length of the data in the table. (Default: 11)
 
     align : string
         The alignment to use ('left', 'center', or 'right'). (Default: 'right')
@@ -99,9 +106,17 @@ def table(data, headers=None, format_spec=FMT, width=WIDTH, align=ALIGN, style=S
     style : string or tuple, optional
         A formatting style. (Default: 'fancy_grid')
 
-    out : writer, optional
-        A file handle or object that has write() and flush() methods (Default: sys.stdout)
+    out: IO writer, optional
+        File handle or object used to manage IO (displaying the table). Must have a write()
+        method that takes a string argument, and a flush() method. See sys.stdout for an
+        example. (Default: 'sys.stdout')
     """
+    # Auto-width.
+    if width is None:
+      max_header_width = 0 if headers is None else max_width(headers, FMT)
+      max_data_width = max_width(chain(*data), format_spec)
+      width = max(max_header_width, max_data_width)
+
     # Number of columns in the table.
     ncols = len(data[0]) if headers is None else len(headers)
     tablestyle = STYLES[style]
@@ -142,6 +157,9 @@ def header(headers, width=WIDTH, align=ALIGN, style=STYLE, add_hr=True):
     headerstr : string
         A string consisting of the full header row to print
     """
+    if width is None:
+      width = max_width(headers, FMT)
+
     tablestyle = STYLES[style]
     widths = parse_width(width, len(headers))
     alignment = ALIGNMENTS[align]
@@ -185,6 +203,9 @@ def row(values, width=WIDTH, format_spec=FMT, align=ALIGN, style=STYLE):
     rowstr : string
         A string consisting of the full row of data to print
     """
+    if width is None:
+      width = max_width(values, format_spec)
+
     tablestyle = STYLES[style]
     widths = parse_width(width, len(values))
 
@@ -195,28 +216,23 @@ def row(values, width=WIDTH, format_spec=FMT, align=ALIGN, style=STYLE):
         format_spec = [format_spec] * len(list(values))
 
     # mapping function for string formatting
-    def mapdata(val):
-
-        # unpack
-        width, datum, prec = val
-
+    def mapdata(width, datum, prec):
+        """Formats an individual piece of data."""
         if isinstance(datum, string_types):
             return ('{:%s%i}' % (ALIGNMENTS[align], width + ansi_len(datum))).format(datum)
-
         elif isinstance(datum, Number):
             return ('{:%s%i.%s}' % (ALIGNMENTS[align], width, prec)).format(datum)
-
         else:
             raise ValueError('Elements in the values array must be strings, ints, or floats')
 
     # string formatter
-    data = map(mapdata, zip(widths, values, format_spec))
+    data = starmap(mapdata, zip(widths, values, format_spec))
 
     # build the row string
     return format_line(data, tablestyle.row)
 
 
-def hrule(n=1, width=WIDTH, linestyle=LineStyle('', '─', '─', '')):
+def hrule(n=1, width=11, linestyle=LineStyle('', '─', '─', '')):
     """Returns a formatted string used as a border between table rows
 
     Parameters

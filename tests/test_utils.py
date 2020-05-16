@@ -1,11 +1,26 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import numpy as np
 from tableprint import humantime, LineStyle
-from tableprint.utils import format_line
+from tableprint.utils import format_line, max_width
 import pytest
 
 
+def test_max_width():
+    """Tests the auto width feature"""
+
+    # Max width for strings.
+    assert max_width(['a', 'b', 'c'], None) == 1
+    assert max_width(['a', 'b', 'foo'], None) == 3
+
+    # Max width for numbers.
+    assert max_width([1, 2, 3], '0f') == 1
+    assert max_width([1, 2, 3], '2f') == 4
+    assert max_width([np.pi, np.pi], '3f') == 5
+
+
 def test_format_line():
+    """Tests line formatting"""
 
     # using ASCII
     assert format_line(['foo', 'bar'], LineStyle('(', '_', '+', ')')) == '(foo+bar)'
@@ -19,6 +34,7 @@ def test_format_line():
 
 
 def test_humantime():
+    """Tests the humantime utility"""
 
     # test numeric input
     assert humantime(1e6) == u'1 weeks, 4 days, 13 hours, 46 min., 40 s'

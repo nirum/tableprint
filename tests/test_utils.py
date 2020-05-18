@@ -23,13 +23,15 @@ def test_format_line():
     """Tests line formatting"""
 
     # using ASCII
-    assert format_line(['foo', 'bar'], LineStyle('(', '_', '+', ')')) == '(foo+bar)'
+    assert format_line(['foo', 'bar'], LineStyle(
+        '(', '_', '+', ')')) == '(foo+bar)'
     assert format_line("abc", LineStyle('[', '*', '.', ']')) == '[a.b.c]'
     assert format_line(["_"], LineStyle('o', '', '!', 'o')) == 'o_o'
     assert format_line([], LineStyle(':', '', '', ')')) == ':)'
 
     # using unicode
-    assert format_line(['.', '.', '.'], LineStyle('★', '_', '╳', '☆')) == '★.╳.╳.☆'
+    assert format_line(['.', '.', '.'], LineStyle('★', '_', '╳', '☆')) == \
+        '★.╳.╳.☆'
     assert format_line("☚☛", LineStyle('♪', '*', '♩', '♫')) == '♪☚♩☛♫'
 
 

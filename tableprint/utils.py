@@ -35,7 +35,8 @@ def humantime(time):
     # weeks
     if time >= 7 * 60 * 60 * 24:
         weeks = math.floor(time / (7 * 60 * 60 * 24))
-        timestr = "{:g} weeks, ".format(weeks) + humantime(time % (7 * 60 * 60 * 24))
+        timestr = "{:g} weeks, ".format(
+            weeks) + humantime(time % (7 * 60 * 60 * 24))
 
     # days
     elif time >= 60 * 60 * 24:
@@ -105,10 +106,13 @@ def max_width(data, format_spec):
     def compute_width(d):
         """Computes the formatted width of single element."""
         if isinstance(d, string_types):
-          return len(d)
+            return len(d)
         if isinstance(d, Number):
-          return len(('{:0.%s}' % format_spec).format(d))
+            return len(('{:0.%s}' % format_spec).format(d))
         else:
-            raise ValueError('Elements in the values array must be strings, ints, or floats')
+            raise ValueError(
+                'Elements in the values array must be '
+                'strings, ints, or floats'
+            )
 
     return reduce(max, map(compute_width, data))

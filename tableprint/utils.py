@@ -1,14 +1,10 @@
-# -*- coding: utf-8 -*-
 """Tableprint utilities."""
-
-from __future__ import print_function, unicode_literals
 
 from functools import reduce
 import math
 import re
 
 from numbers import Number
-from six import string_types
 from wcwidth import wcswidth
 
 __all__ = ('humantime',)
@@ -108,7 +104,7 @@ def max_width(data, format_spec):
 
     def compute_width(d):
         """Computes the formatted width of single element."""
-        if isinstance(d, string_types):
+        if isinstance(d, str):
             return len(d)
         elif isinstance(d, Number):
             return len(('{:0.%s}' % format_spec).format(d))

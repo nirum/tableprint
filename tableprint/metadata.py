@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
 # Version info
-__version__ = '0.9.0'
+__version__ = '0.9.1'
 __license__ = 'MIT'
 
 # Project description(s)
@@ -12,4 +10,4 @@ __url__ = 'https://github.com/nirum/tableprint'
 
 # Author details
 __author__ = 'Niru Maheswaranathan'
-__author_email__ = 'niru@fastmail.com'
+__author_email__ = 'niru@hey.com'

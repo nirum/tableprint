@@ -78,6 +78,7 @@ Thanks to: [@nowox](https://github.com/nowox), [@nicktimko](https://github.com/n
 
 | Version | Release Date | Description                                                                                                                                                                                                     |
 | ------: | :----------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|   0.9.1 |  Aug 9 2020 | Drops python3 support. |
 |   0.9.0 |  May 16 2020 | Adds support for automatically determining the table's width.                                                                                                                                                   |
 |   0.8.0 |  Oct 24 2017 | Improves support for international languages, removes numpy dependency                                                                                                                                          |
 |   0.7.0 |  May 26 2017 | Adds a TableContext context manager for easy creation of dynamic tables (tables that update periodically). Adds the ability to pass a list or tuple of widths to specify different widths for different columns |

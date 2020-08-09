@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Table printing
 
@@ -10,13 +9,9 @@ Usage
 >>> headers = ['Column A', 'Column B', 'Column C']
 >>> tableprint.table(data, headers)
 """
-from __future__ import print_function, unicode_literals
-
 from itertools import chain, starmap
 from numbers import Number
 import sys
-
-from six import string_types
 
 from .style import LineStyle, STYLES
 from .utils import ansi_len, format_line, parse_width, max_width
@@ -234,18 +229,18 @@ def row(values, width=None, format_spec=FMT, align=ALIGN, style=STYLE):
     tablestyle = STYLES[style]
     widths = parse_width(width, len(values))
 
-    format_spec_is_valid_type = isinstance(format_spec, string_types) or \
+    format_spec_is_valid_type = isinstance(format_spec, str) or \
         isinstance(format_spec, list)
     assert format_spec_is_valid_type, \
         "format_spec must be a string or list of strings"
 
-    if isinstance(format_spec, string_types):
+    if isinstance(format_spec, str):
         format_spec = [format_spec] * len(list(values))
 
     # mapping function for string formatting
     def mapdata(width, datum, prec):
         """Formats an individual piece of data."""
-        if isinstance(datum, string_types):
+        if isinstance(datum, str):
             return (
                 '{:%s%i}' % (ALIGNMENTS[align], width + ansi_len(datum))
             ).format(datum)

@@ -2,10 +2,10 @@
 
 Pretty console printing :clipboard: of tabular data in python :snake:
 
-[![Build Status](https://travis-ci.org/nirum/tableprint.svg?branch=master)](https://travis-ci.org/nirum/tableprint)
-[![Coverage Status](https://codecov.io/gh/nirum/tableprint/branch/master/graph/badge.svg)](https://codecov.io/gh/nirum/tableprint)
-[![Documentation Status](https://readthedocs.org/projects/tableprint/badge/?version=latest)](https://tableprint.readthedocs.io/?badge=latest)
-[![PyPi version](https://img.shields.io/pypi/v/tableprint.svg)](https://pypi.python.org/pypi/tableprint)
+![build](https://github.com/nirum/tableprint/workflows/build/badge.svg)
+[![codecov](https://codecov.io/gh/nirum/tableprint/branch/master/graph/badge.svg)](https://codecov.io/gh/nirum/tableprint)
+[![docs](https://readthedocs.org/projects/tableprint/badge/?version=latest)](https://tableprint.readthedocs.io/?badge=latest)
+[![pypi](https://img.shields.io/pypi/v/tableprint.svg)](https://pypi.python.org/pypi/tableprint)
 
 ## ℹ︎ About
 

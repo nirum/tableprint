@@ -256,7 +256,8 @@ def row(values, width=None, format_spec=FMT, align=ALIGN, style=STYLE):
         else:
             raise ValueError(
                 'Elements in the values array must be '
-                'strings, ints, or floats'
+                'strings, ints, or floats. Found: '
+                '{}'.format(d.__class__.__name__)
             )
 
     # string formatter

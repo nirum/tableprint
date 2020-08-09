@@ -30,7 +30,10 @@ def humantime(time):
     try:
         time = float(time)
     except (ValueError, TypeError):
-        raise ValueError("Input must be numeric")
+        raise ValueError(
+            'Input must be numeric. Found:'
+            '{}'.format(time.__class__.__name__)
+        )
 
     # weeks
     if time >= 7 * 60 * 60 * 24:
@@ -107,12 +110,13 @@ def max_width(data, format_spec):
         """Computes the formatted width of single element."""
         if isinstance(d, string_types):
             return len(d)
-        if isinstance(d, Number):
+        elif isinstance(d, Number):
             return len(('{:0.%s}' % format_spec).format(d))
         else:
             raise ValueError(
                 'Elements in the values array must be '
-                'strings, ints, or floats'
+                'strings, ints, or floats. Found: '
+                '{}'.format(d.__class__.__name__)
             )
 
     return reduce(max, map(compute_width, data))

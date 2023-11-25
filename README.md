@@ -67,8 +67,7 @@ Hosted at Read The Docs: [tableprint.readthedocs.org](http://tableprint.readthed
 ## 📦 Dependencies
 
 -   Python 3.6+
--   [future](https://pypi.org/project/future/)
--   [six](https://pypi.org/project/six/)
+-   [wcwidth](https://pypi.org/project/wcwidth/)
 
 ## :heart: Contributors
 
